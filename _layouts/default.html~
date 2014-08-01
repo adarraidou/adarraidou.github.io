@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+    <body>
+
+    {% include header.html %}
+    <h1>dddd</h1>
+    <div class="container">
+	<div class="row">
+		<div class="col-md-8">{{ content }}</div>
+		<div class="col-md-4">{{ toc }} </div>
+	
+        </div>
+    </div> 
+    
+
+    {% include footer.html %}
+
+    </body>
+</html>

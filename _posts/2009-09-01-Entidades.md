@@ -17,7 +17,7 @@ object Persona {
    apellido VARCHAR(45)
 }
 
-{% endplantuml%}
+{% endplantuml %}
 
 
 Entonces para mapear una clase con esta tabla solo tenemos que definir la clase `Personas.java` como sigue.

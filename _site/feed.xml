@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>adarraidou</title>
+    <description>Proximamente subo algo.</description>
+    <link>http://adarraidou.github.io/</link>
+    <atom:link href="http://adarraidou.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Fri, 01 Aug 2014 19:28:01 -0300</pubDate>
+    <lastBuildDate>Fri, 01 Aug 2014 19:28:01 -0300</lastBuildDate>
+    <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Welcome to Jekyll!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory - edit this post and re-build (or run with the &lt;code&gt;-w&lt;/code&gt; switch) to see your changes!
+To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention: YYYY-MM-DD-name-of-post.ext.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 19 Jul 2014 16:49:31 -0300</pubDate>
+        <link>http://adarraidou.github.io/jekyll/update/2014/07/19/welcome-to-jekyll/</link>
+        <guid isPermaLink="true">http://adarraidou.github.io/jekyll/update/2014/07/19/welcome-to-jekyll/</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>Parte 3</title>
+        <description>&lt;h1 id=&quot;mapeo-de-propiedades-con-jpa--ejemplo&quot;&gt;Mapeo de propiedades con JPA – Ejemplo&lt;/h1&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Tabla&lt;/td&gt;
+      &lt;td&gt;Clase&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Peliculas&lt;/td&gt;
+      &lt;td&gt;Pelicula&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Copias_Peliculas&lt;/td&gt;
+      &lt;td&gt;CopiaPelicula&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Formatos&lt;/td&gt;
+      &lt;td&gt;Formato&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Socios&lt;/td&gt;
+      &lt;td&gt;Socio&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Alquileres&lt;/td&gt;
+      &lt;td&gt;Alquiler&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Ciudades&lt;/td&gt;
+      &lt;td&gt;Ciudad&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+        <pubDate>Thu, 10 Sep 2009 16:26:00 -0300</pubDate>
+        <link>http://adarraidou.github.io/rdbms/jpa/java/2009/09/10/Mapeo-de-propiedades-con-JPA%20%E2%80%93%20Ejemplo/</link>
+        <guid isPermaLink="true">http://adarraidou.github.io/rdbms/jpa/java/2009/09/10/Mapeo-de-propiedades-con-JPA%20%E2%80%93%20Ejemplo/</guid>
+        
+        
+        <category>rdbms</category>
+        
+        <category>jpa</category>
+        
+        <category>java</category>
+        
+      </item>
+    
+      <item>
+        <title>Parte 2</title>
+        <description>&lt;h1 id=&quot;mapeo-de-propiedades-connbspjpa&quot;&gt;Mapeo de propiedades con JPA&lt;/h1&gt;
+
+&lt;p&gt;Vimos que para mapear una clase con una tabla usabamos las anotaciones @Entity y @Table, ahora vamos a explicar como mapeamos las propiedades de las clases con las columnas de las tablas.
+Existen distintos tipos de anotaciones para mapear propiedades. Esto depende del tipo de dato de las columnas de la tabla, si es una relación con otra tabla, etc.
+Haciendo una breve resumen existen varias anotaciones para realizar esto:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;mapeo-directo&quot;&gt;mapeo directo&lt;/h2&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Basic&lt;/dt&gt;
+  &lt;dd&gt;La anotación Basic es la mas simple de todas, tiene dos atributos &lt;strong&gt;fetch&lt;/strong&gt;, que define que estrategia se usa para traer los datos de la base de datos (&lt;code&gt;FetchType.EAGER | FetchType.LAZY&lt;/code&gt;), y &lt;strong&gt;optional&lt;/strong&gt; que toma valor booleano dependiendo de que el campo pueda o no ser nulo.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Enumerated&lt;/dt&gt;
+  &lt;dd&gt;Se usa cuando se quiere guardar valores enumerados de constantes 	(Ordinales o de Texto). Tiene un solo atributo para configurar que 	es &lt;strong&gt;value&lt;/strong&gt; (&lt;code&gt;EnumType.ORDINAL | EnumType.STRING&lt;/code&gt;).&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Temporal&lt;/dt&gt;
+  &lt;dd&gt;Se usa para campos de tipo &lt;code&gt;java.util.Date&lt;/code&gt; y &lt;code&gt;java.util.Calendar&lt;/code&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Lob&lt;/dt&gt;
+  &lt;dd&gt;Se usa esta anotación junto con un mapeo básico para 	especificar que una propiedad o campo persistente debe ser manejado 	como un &lt;code&gt;Clob, Blob, etc&lt;/code&gt;.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Transient&lt;/dt&gt;
+  &lt;dd&gt;Por defecto JPA supone que todos los campos de una entidad son 	persistentes. Se usa esta anotacion para indicar cuando una 	propiedad no es persistente.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;de-relaciones&quot;&gt;de relaciones…&lt;/h2&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@OneToOne (Uno a Uno)&lt;/dt&gt;
+  &lt;dd&gt;Cuando una entidad A referencia a una Entidad B, y ningún otro A puede referenciar a B, decimos que tenemos una relación OneToOne.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@ManyToOne (Muchos a Uno)&lt;/dt&gt;
+  &lt;dd&gt;Cuando una entidad A referencia a una entidad B, y otros A pueden referenciar a este mismo B, decimos que tenemos una relación 	ManyToOne.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@OneToMany (Uno a Muchos)&lt;/dt&gt;
+  &lt;dd&gt;Cuando una entidad A refencia multiples entidades B, y no hay dos A que referencien el mismo B decimos que tenemos una relación 	OneToMany&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@ManyToMany (Muchos a Muchos)&lt;/dt&gt;
+  &lt;dd&gt;Cuando muchas entidades A referencian a muchas entidades B, y otras entidades A pueden referenciar algunas de las mismas B decimos 	que tenemos una relación ManyToMany.
+- @MapKey
+- @OrderBy&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;y-de-composicin&quot;&gt;…y de composición&lt;/h2&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Embeddable&lt;/dt&gt;
+  &lt;dd&gt;Se usa esta anotación para especificar una clase cuyas 	instancias son almacenadas como parte de una entidad propietaria. 	Cada una de las propiedades o campos de este &lt;strong&gt;Embedded 	Object&lt;/strong&gt; (objeto integrado) es mapeado a la tabla de la 	entidad propietaria.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Embedded&lt;/dt&gt;
+  &lt;dd&gt;Se utiliza esta anotación para indicar que se esta usando un 	objeto integrado. Las propiedades de este objeto se mapearan con la 	tabla de la entidad donde esta siendo utilizado.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;(Ver ejemplo de &lt;code&gt;Direccion&lt;/code&gt;&amp;gt; y &lt;code&gt;Socio&lt;/code&gt;)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;por-ultimo&quot;&gt;por ultimo&lt;/h2&gt;
+
+&lt;p&gt;Las siguientes anotaciones se utilizan para sobrescribir propiedades y asociaciones que se declaran por ejemplo en herencia de clases, las clases &lt;code&gt;@Embeddable&lt;/code&gt;, etc. Se van a desarrollar en un futuro post.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;@AttributeOverride&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@AttributeOverrides&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@AssociationOverride&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@AssociationOverrides&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Thu, 10 Sep 2009 16:26:00 -0300</pubDate>
+        <link>http://adarraidou.github.io/rdbms/jpa/java/2009/09/10/Mapeo%20de-propiedades%20con-JPA/</link>
+        <guid isPermaLink="true">http://adarraidou.github.io/rdbms/jpa/java/2009/09/10/Mapeo%20de-propiedades%20con-JPA/</guid>
+        
+        
+        <category>rdbms</category>
+        
+        <category>jpa</category>
+        
+        <category>java</category>
+        
+      </item>
+    
+      <item>
+        <title>Parte 1</title>
+        <description>&lt;h1 id=&quot;entidades&quot;&gt;Entidades&lt;/h1&gt;
+&lt;p&gt;Antes que nada, supongamos que tenemos una base de datos con una tabla llamada &lt;strong&gt;Personas&lt;/strong&gt; definida de la siguiente manera.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/plantuml/8bcf302c02d0688bd829e477caab7089.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Entonces para mapear una clase con esta tabla solo tenemos que definir la clase &lt;code&gt;Personas.java&lt;/code&gt; como sigue.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Personas&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;cm&quot;&gt;/*Campos, Getters and Setters*/&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;La anotación &lt;code&gt;@Entity&lt;/code&gt; sirve para designar una clase POJO (Plain Old Java object) como una entidad para que pueda usar los servicios de JPA.
+Como JPA funciona usando valores por defecto no hace falta indicarle como se llama la tabla, ya que busca una con el mismo nombre que la clase.
+En el caso de que quisieramos que la clase tenga un nombre diferente al de la tabla, &lt;code&gt;Persona&lt;/code&gt; por ejemplo (que está en singular), hay que indicarle cual es la tabla con la que se mapea, para esto se utiliza la anotación &lt;code&gt;@Table&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Personas&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Persona&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;cm&quot;&gt;/*Campos, Getters and Setters*/&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;resumen&quot;&gt;Resumen&lt;/h2&gt;
+&lt;p&gt;Tenemos una tabla llamada &lt;code&gt;Personas&lt;/code&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Creamos una clase (Persona.java o Persona.java por ejemplo).&lt;/li&gt;
+  &lt;li&gt;Dicha clase tiene que tener la anotación &lt;code&gt;@Entity&lt;/code&gt; antes de la definición de la clase.&lt;/li&gt;
+  &lt;li&gt;Si la clase no se llama igual que la tabla debe agregarse la anotación &lt;code&gt;@Table(name=&quot;NombreTabla&quot;)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Implementar la interface &lt;code&gt;java.io.Serializable&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;personajava&quot;&gt;Persona.java&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.io.Serializable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.persistence.Entity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.persistence.Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Personas&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Persona&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;cm&quot;&gt;/**********************&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;     * Getters and Setters *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;     ***********************/&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getNombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setNombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;nombre&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getApellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setApellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;apellido&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;links-asociados&quot;&gt;Links asociados&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://jcp.org/en/jsr/detail?id=317&quot;&gt;JSR 317: JavaTM Persistence 2.0&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.oracle.com/technology/products/ias/toplink/jpa/resources/toplink-jpa-annotations.html&quot;&gt;TopLink JPA Annotation Reference&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Tue, 01 Sep 2009 16:26:00 -0300</pubDate>
+        <link>http://adarraidou.github.io/rdbms/jpa/java/2009/09/01/Entidades/</link>
+        <guid isPermaLink="true">http://adarraidou.github.io/rdbms/jpa/java/2009/09/01/Entidades/</guid>
+        
+        
+        <category>rdbms</category>
+        
+        <category>jpa</category>
+        
+        <category>java</category>
+        
+      </item>
+    
+  </channel>
+</rss>
