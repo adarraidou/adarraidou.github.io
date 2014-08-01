@@ -7,7 +7,7 @@ categories: RDBMS jpa java
 # Entidades
 Antes que nada, supongamos que tenemos una base de datos con una tabla llamada **Personas** definida de la siguiente manera.
 
-{% plantuml %}
+{% highlight java %}
 
 skinparam monochrome true
 
@@ -17,7 +17,7 @@ object Persona {
    apellido VARCHAR(45)
 }
 
-{% endplantuml %}
+{% endhighlight %}
 
 
 Entonces para mapear una clase con esta tabla solo tenemos que definir la clase `Personas.java` como sigue.
