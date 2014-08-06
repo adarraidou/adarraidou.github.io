@@ -11,5 +11,9 @@ layout: bootstrap
   <article class="post-content">
   {{ content }}
   </article>
+  
+  {{% if page.comments %}}
+       {% include disqusComments.html %}
+  {{% endif %}}
 
 </div>
