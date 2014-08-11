@@ -1,23 +1,42 @@
 ---
 layout: post
-title: Relational 2 Graph - JDBC
+title: Relational 2 Graph - DatabaseMetaData
 lang: es
 categories:
     - es
 autor: Augusto Darraidou
 ---
 
-#Getting the database structure
+Mi objetivo al principio era probar una base de datos de grafos, [Neo4J][neo4j], una vez que me instalé el servidor, seguí los ejemplos que vienen en la consola web de Neo4J y hasta ahí todo bien.
+Pero quería un ejemplo más completo, con más datos. 
+A partir de ahí quise ver como sería el proceso de migrar una base relacional a una de grafos.
+Para esto comencé de a poco, busqué una base de ejemplo, en este caso utilice [sakila][mysql sakila] al principio quería ver el esquema, como se acomodaba a este paradigma, por lo que creé una base de datos en neo4j que contenía como datos solamente la estructura de la base relacional, es decir las _tablas_, sus _columnas_, y las _relaciones_ entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.
+
+Una vez echo esto, migré los datos de sakila a Neo4j, en un inicio cargando los datos utilizando jdbc y generando comandos en cypher que pegaba en la consola de Neo4j. Esto funcionó bien hasta que me encontré con tablas que contenian gran cantidad de registros, ya no me dejaba relizarlo. Tuve que crear un proceso proceso que los insertara utilizando batchInserter.
+
+En este primer post voy a mostrar como obtener la metadata de una RDBMS utilizando el [API JDBC de java][jdbc api], esto nos va a servir como base para luego cargar esta información en Neo4J.
+
+# Requisitos
+
+Tener Instalado:
+ - [Java JDK][java jdk] , versión mínima 7.
+ - [MySql][mysql] 
+ - [Sakila][mysql sakila]
+
+# Getting the database structure
 
 ##Java™ JDBC API
-> The Java Database Connectivity (JDBC) API provides universal data access from the Java programming language. Using the JDBC API, you can access virtually any data source, from relational databases to spreadsheets and flat files. JDBC technology also provides a common base on which tools and alternate interfaces can be built. <br> **Ref: [JDBC](http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/)**
+> The Java Database Connectivity (JDBC) API provides universal data access from the Java programming language. Using the JDBC API, you can access virtually any data source, from relational databases to spreadsheets and flat files. JDBC technology also provides a common base on which tools and alternate interfaces can be built.
+**Ref: [JDBC](http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/)**
 
 
 # DatabaseMetaData
 
-> This interface is implemented by driver vendors to let users know the capabilities of a Database Management System (DBMS) in combination with the driver based on JDBCTM technology ("JDBC driver") that is used with it. Different relational DBMSs often support different features, implement features in different ways, and use different data types. In addition, a driver may implement a feature on top of what the DBMS offers. Information returned by methods in this interface applies to the capabilities of a particular driver and a particular DBMS working together. Note that as used in this documentation, the term **database** is used generically to refer to both the driver and DBMS. <br> **Ref: [DatabaseMetaData](http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html)**
+> This interface is implemented by driver vendors to let users know the capabilities of a Database Management System (DBMS) in combination with the driver based on JDBCTM technology ("JDBC driver") that is used with it. Different relational DBMSs often support different features, implement features in different ways, and use different data types. In addition, a driver may implement a feature on top of what the DBMS offers. Information returned by methods in this interface applies to the capabilities of a particular driver and a particular DBMS working together. Note that as used in this documentation, the term **database** is used generically to refer to both the driver and DBMS.
+**Ref: [DatabaseMetaData](http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html)**
 
 ## Methods
+Los métodos que les vamos a prestar atención son:
 These are the methods that we will pay attention
 
 Column name | Type 
@@ -28,8 +47,9 @@ ResultSet | `getPrimaryKeys(String catalog, String schema, String table)` <br> R
 ResultSet | `getImportedKeys(String catalog, String schema, String table)`<br> Retrieves a description of the primary key columns that are referenced by the given table's foreign key columns (the primary keys imported by a table).
 ResultSet | `getExportedKeys(String catalog, String schema, String table)`<br> Retrieves a description of the foreign key columns that reference the given table's primary key columns (the foreign keys exported by a table).
 
+A continuación se encuentra el detalle de la información que devuelve cada método
+
 ### getTables
-Devuelve un ResultSet con la siguiente información
 
 Column name | Type | Description
 ----|----|---
@@ -45,7 +65,6 @@ Column name | Type | Description
 **REF_GENERATION**	|	`String`	|	specifies how values in SELF_REFERENCING_COL_NAME are created. Values are "SYSTEM", "USER", "DERIVED". (may be null)
 
 ### getColumns
-Devuelve un ResultSet con la siguiente información
 
 Column name | Type
 ----|----
@@ -76,8 +95,6 @@ _BUFFER_LENGTH_	|	is not used.
 
 ### getPrimaryKeys
 
-Devuelve un ResultSet con la siguiente información
-
 Column name | Type | Description
 ----|----|---
 **TABLE_CAT**	|	`String`	|	table catalog (may be null)
@@ -89,8 +106,6 @@ Column name | Type | Description
 
 
 ### getImportedKeys && getExportedKeys
-
-Devuelve un ResultSet con la siguiente información
 
 Column name | Type | Description
 ----|----|---
@@ -112,15 +127,49 @@ Column name | Type | Description
 
 ----------
 
+# Class Diagram
 
 {% plantuml %}
+
+class DBTable {
+  name/id
+  metadata
+  columns[]
+  pkColumns[]
+}
+
+class DBColumn {
+  name/id
+  metadata
+  table
+}
+
+class DBReferenceKey {
+  pkTable
+  fkTable
+  metadata
+}
+
+class DBReferenceColumn {
+  pkColumn
+  fkColumn
+  meta
+}
+
+DBTable "pkTable"<- DBReferenceKey
+DBTable "fkTable"<- DBReferenceKey
+DBTable -"*" DBColumn: has_columns
+DBTable -"*" DBColumn: has_pk_Columns
+DBReferenceColumn -"1" DBColumn: pkColumn
+DBReferenceColumn -"1" DBColumn: fkColumn
+DBReferenceColumn - DBReferenceKey
 
 {% endplantuml %}
 
 Con estos métodos puedo obtener la estructura de una base de datos en particular.
 Si tomamos el ejemplo de Sakila
 
-**1. Obtenemos las tablas a**
+## 1. Obtenemos las tablas
 
 {% highlight java %}
 List<DBTable> tablesList = new ArrayList<>();
@@ -131,7 +180,7 @@ while(rs.next()){
 } 
 {% endhighlight %}
 
-**2. Luego por cada tabla obtenemos sus columnas y PrimaryKey**
+## 2. Luego por cada tabla obtenemos sus columnas y PrimaryKey
 
 {% highlight java %}
 for(DBTable table : tableList){
@@ -155,7 +204,7 @@ for(DBTable table : tableList){
 {% endhighlight %}
 
 
-**3. Obtenemos las ForeignKeys**
+## 3. Obtenemos las ForeignKeys
 
 {% highlight java %}
  List<DBForeignKey> foreignKeyList = new ArrayList<>();
@@ -168,13 +217,117 @@ for(DBTable table : tableList){
 
 {% endhighlight %}
 
-**4. Establecemos las relaciones entre tablas las ForeignKeys**
+## 4. Establecemos las relaciones entre tablas las ForeignKeys
 
 {% highlight java %} 
 
 {% endhighlight %}
 
-Ya tenemos el modelo armado y con datos para poder trabajarlos. Utilizando algún motor de plantillas se puede utilizar para generar, entre otras cosas, código. desde JavaBeans, archivos de mapeo de HIbrenate, etc. Yo lo voy a utilizar para crear una base de grafos donde se encuentre guardados los metadatos de una base relacional. después mostraré como se puede navegar y descubrir las relaciones existente en este esquema
+## Proceso completo
+{% highlight java %} 
+ public void load(String catalog) throws SQLException {
+
+        try (Connection con = JdbcConnectionFactory.getConnection()) {
+            DatabaseMetaData metaData = con.getMetaData();
+            try (ResultSet tableRs = metaData.getTables(catalog, null, null, new String[]{"TABLE"})) {
+
+                while (tableRs.next()) {
+                    DBTable dbTable = new DBTable(tableRs);
+                    loadColumns(dbTable, metaData);
+                    tableMap.put(dbTable.getTableName(), dbTable);
+                }
+            }
+
+            for (Map.Entry<String, DBTable> entry : tableMap.entrySet()) {
+                String string = entry.getKey();
+                DBTable dbTable = entry.getValue();
+
+                loadPK(catalog, dbTable, metaData);
+                loadDataIDs(dbTable);
+                
+            }
+
+            for (Map.Entry<String, DBTable> entry : tableMap.entrySet()) {
+                DBTable dbTable = entry.getValue();
+                loadFK(catalog, dbTable, metaData);
+                getSql(dbTable);
+            }
+        }
+
+    }
+
+    private void loadColumns(DBTable dbTable, DatabaseMetaData metaData) throws SQLException {
+        try (ResultSet rs = metaData.getColumns(dbTable.getTableCat(), null, dbTable.getTableName(), null)) {
+            List<DBColumn> columnsList = new ArrayList<>();
+            while(rs.next()){
+                columnsList.add(new DBColumn(rs));               
+            }
+            dbTable.setColumnList(columnsList);
+        }
+    }
+  
+    private void loadPK(String catalog, DBTable table, DatabaseMetaData metaData) throws SQLException {
+        try (ResultSet pkRs = metaData.getPrimaryKeys(catalog, null, table.getTableName())) {
+            List<DBPrimaryKey> pkList = new ArrayList<>();
+
+            while (pkRs.next()) {
+                pkList.add(new DBPrimaryKey(pkRs));
+            }
+            table.setPkList(pkList);
+        }
+
+    }
+
+    private void loadFK(String catalog, DBTable table, DatabaseMetaData metaData) throws SQLException {
+
+        try (ResultSet ikRs = metaData.getImportedKeys(catalog, null, table.getTableName())) {
+            List<DBImportedKey> ikList = new ArrayList<>();
+
+            while (ikRs.next()) {
+                ikList.add(new DBImportedKey(ikRs));
+            }
+            table.setImportedKeyList(ikList);
+        }
+
+        //clean FK
+        Map<String, DBForeignKey> fkMap = new HashMap<>();
+        table.setForeignKeyList(new ArrayList<DBForeignKey>());
+
+        for (DBImportedKey ik : table.getImportedKeyList()) {
+            DBForeignKey fk = null;
+            String fkname = ik.getFkName();
+
+            if (fkMap.containsKey(fkname)) {
+                fk = fkMap.get(fkname);
+            } else {
+
+                fk = new DBForeignKey();                
+                fk.setFkTable(table);
+                fk.setPkTable(tableMap.get(ik.getPktableName()));
+                fkMap.put(fkname, fk);
+                table.getForeignKeyList().add(fk);
+                fk.setImportedKeyList(new ArrayList<DBImportedKey>());
+                fk.setFkName(fkname);
+            }
+            fk.getImportedKeyList().add(ik);
+
+        }
+    }
+{% endhighlight %}
 
 
+# Resumen
+...
 
+#Próximos pasos
+
+Ya tenemos el modelo armado y con datos para poder trabajarlos. Utilizando algún motor de plantillas se puede utilizar para generar, entre otras cosas, código. desde JavaBeans, archivos de mapeo de Hibernate, etc.
+En el siguiente post lo voy a utilizar para crear una base de grafos donde se encuentre guardados los metadatos de una base relacional. después mostraré como se puede navegar y descubrir las relaciones existente en este esquema
+
+
+[java jdk]: (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+[mysql]: http://dev.mysql.com/downloads/mysql/
+[mysql sakila]: http://dev.mysql.com/doc/sakila/en/
+[neo4j]: http://neo4j.com
+[neo4j sample db]: http://docs.neo4j.org/chunked/stable/cypherdoc-movie-database.html
+[jdbc api]: http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/
