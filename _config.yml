@@ -1,21 +1,33 @@
-# Site settings
-title: adarraidou
-description: "Proximamente subo algo."
-baseurl: ""
-url: "http://adarraidou.github.io"
+# Dependencies
+markdown:         kramdown
+highlighter: pygments
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Augusto Darraidou
+tagline:          'Augusto Darraidou Blog'
+description:      'Proximamente subo algo.'
+url:             http://adarraidou.github.io
 twitter_username: adarraidou
 github_username:  adarraidou
 
-# Build settings
-markdown: kramdown
+author:
+  name:           'Augusto Darraidou'
+  url:            https://twitter.com/adarraidou
 
-permalink: pretty
-highlighter: pygments
+paginate:         5
+
+# Custom vars
+version:          0.0.1
+
+github:
+  repo:           https://github.com/adarraidou
 
 plantuml:
   plantuml_jar: _bin/plantuml.jar     # path to plantuml jar
   tmp_folder: _plantuml               # tmp folder to put generated image files
   # dot_exe: c:/graphviz/bin/dot.exe    # [optional] path to Graphviz dot execution
   background_color: white             # [optional] UML image background color
-
 
