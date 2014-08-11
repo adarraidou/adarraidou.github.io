@@ -1,8 +1,12 @@
 ---
 layout: post
-title:  "Parte 1"
+title:  "Parte 1 - Entidades"
 date:   2009-09-01 19:26:00
-categories: RDBMS jpa java
+lang: en
+tags:
+   - rdbms 
+   - java
+   - jpa
 ---
 # Entidades
 Antes que nada, supongamos que tenemos una base de datos con una tabla llamada **Personas** definida de la siguiente manera.

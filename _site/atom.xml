@@ -1,0 +1,1549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Augusto Darraidou</title>
+ <link href="http://adarraidou.github.io/atom.xml" rel="self"/>
+ <link href="http://adarraidou.github.io/"/>
+ <updated>2014-08-10T22:25:24-03:00</updated>
+ <id>http://adarraidou.github.io</id>
+ <author>
+   <name>Augusto Darraidou</name>
+   <email></email>
+ </author>
+
+ 
+ <entry>
+   <title>Relational 2 Graph - JDBC</title>
+   <link href="http://adarraidou.github.io/es/2014/08/09/jdbc/"/>
+   <updated>2014-08-09T01:27:01-03:00</updated>
+   <id>http://adarraidou.github.io/es/2014/08/09/jdbc</id>
+   <content type="html">&lt;h1 id=&quot;getting-the-database-structure&quot;&gt;Getting the database structure&lt;/h1&gt;
+
+&lt;h2 id=&quot;java-jdbc-api&quot;&gt;Java™ JDBC API&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;The Java Database Connectivity (JDBC) API provides universal data access from the Java programming language. Using the JDBC API, you can access virtually any data source, from relational databases to spreadsheets and flat files. JDBC technology also provides a common base on which tools and alternate interfaces can be built. &lt;br /&gt; &lt;strong&gt;Ref: &lt;a href=&quot;http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/&quot;&gt;JDBC&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;databasemetadata&quot;&gt;DatabaseMetaData&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This interface is implemented by driver vendors to let users know the capabilities of a Database Management System (DBMS) in combination with the driver based on JDBCTM technology (“JDBC driver”) that is used with it. Different relational DBMSs often support different features, implement features in different ways, and use different data types. In addition, a driver may implement a feature on top of what the DBMS offers. Information returned by methods in this interface applies to the capabilities of a particular driver and a particular DBMS working together. Note that as used in this documentation, the term &lt;strong&gt;database&lt;/strong&gt; is used generically to refer to both the driver and DBMS. &lt;br /&gt; &lt;strong&gt;Ref: &lt;a href=&quot;http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html&quot;&gt;DatabaseMetaData&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;methods&quot;&gt;Methods&lt;/h2&gt;
+&lt;p&gt;These are the methods that we will pay attention&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Column name&lt;/th&gt;
+      &lt;th&gt;Type&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ResultSet&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types)&lt;/code&gt;&lt;br /&gt;Retrieves the table types available in this database.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ResultSet&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;getColumns(String catalog, String schemaPattern, String tableNamePattern, String columnNamePattern)&lt;/code&gt;.&lt;br /&gt; Retrieves a description of table columns available in the specified catalog.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ResultSet&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;getPrimaryKeys(String catalog, String schema, String table)&lt;/code&gt; &lt;br /&gt; Retrieves a description of the given table’s primary key columns.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ResultSet&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;getImportedKeys(String catalog, String schema, String table)&lt;/code&gt;&lt;br /&gt; Retrieves a description of the primary key columns that are referenced by the given table’s foreign key columns (the primary keys imported by a table).&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ResultSet&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;getExportedKeys(String catalog, String schema, String table)&lt;/code&gt;&lt;br /&gt; Retrieves a description of the foreign key columns that reference the given table’s primary key columns (the foreign keys exported by a table).&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;gettables&quot;&gt;getTables&lt;/h3&gt;
+&lt;p&gt;Devuelve un ResultSet con la siguiente información&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Column name&lt;/th&gt;
+      &lt;th&gt;Type&lt;/th&gt;
+      &lt;th&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_CAT&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table catalog (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_SCHEM&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table schema (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table name&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_TYPE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table type. Typical types are “TABLE”, “VIEW”, “SYSTEM TABLE”, “GLOBAL TEMPORARY”, “LOCAL TEMPORARY”, “ALIAS”, “SYNONYM”.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;REMARKS&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;explanatory comment on the table&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TYPE_CAT&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the types catalog (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TYPE_SCHEM&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the types schema (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TYPE_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;type name (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;SELF_REFERENCING_COL_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;name of the designated “identifier” column of a typed table (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;REF_GENERATION&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;specifies how values in SELF_REFERENCING_COL_NAME are created. Values are “SYSTEM”, “USER”, “DERIVED”. (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;getcolumns&quot;&gt;getColumns&lt;/h3&gt;
+&lt;p&gt;Devuelve un ResultSet con la siguiente información&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Column name&lt;/th&gt;
+      &lt;th&gt;Type&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_CAT&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table catalog (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_SCHEM&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table schema (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table name&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;COLUMN_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;column name&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;DATA_TYPE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;SQL type from java.sql.Types&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TYPE_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Data source dependent type name, for a UDT the type name is fully qualified&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;COLUMN_SIZE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;column size.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;BUFFER_LENGTH&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;is not used.&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;DECIMAL_DIGITS&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;the number of fractional digits. Null is returned for data types where DECIMAL_DIGITS is not applicable.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;NUM_PREC_RADIX&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Radix (typically either 10 or 2)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;NULLABLE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;is NULL allowed. &lt;br /&gt;&lt;code&gt;columnNoNulls&lt;/code&gt;- might not allow NULL values&lt;br /&gt;&lt;code&gt;columnNullable&lt;/code&gt; - definitely allows NULL values&lt;br /&gt;&lt;code&gt;columnNullableUnknown&lt;/code&gt; - nullability unknown&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;REMARKS&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;comment describing column (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;COLUMN_DEF&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;default value for the column, which should be interpreted as a string when the value is enclosed in single quotes (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;SQL_DATA_TYPE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;unused&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;SQL_DATETIME_SUB&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;unused&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;CHAR_OCTET_LENGTH&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;for char types the maximum number of bytes in the column&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;ORDINAL_POSITION&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;index of column in table (starting at 1)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;IS_NULLABLE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;ISO rules are used to determine the nullability for a column.&lt;br /&gt;&lt;em&gt;YES&lt;/em&gt; — if the column can include NULLs&lt;br /&gt;&lt;em&gt;NO&lt;/em&gt; — if the column cannot include NULLs&lt;br /&gt;&lt;em&gt;empty string&lt;/em&gt; — if the nullability for the column is unknown&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;SCOPE_CATALOG&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;catalog of table that is the scope of a reference attribute (null if DATA_TYPE isn’t REF)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;SCOPE_SCHEMA&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;schema of table that is the scope of a reference attribute (null if the DATA_TYPE isn’t REF)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;SCOPE_TABLE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table name that this the scope of a reference attribute (null if the DATA_TYPE isn’t REF)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;SOURCE_DATA_TYPE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;short&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;source type of a distinct type or user-generated Ref type, SQL type from java.sql.Types (null if DATA_TYPE isn’t DISTINCT or user-generated REF)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;IS_AUTOINCREMENT&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Indicates whether this column is auto incremented&lt;br /&gt;&lt;em&gt;YES&lt;/em&gt; — if the column is auto incremented&lt;br /&gt;&lt;em&gt;NO&lt;/em&gt; — if the column is not auto incremented &lt;br /&gt;&lt;em&gt;empty string&lt;/em&gt; — if it cannot be determined whether the column is auto incremented&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;IS_GENERATEDCOLUMN&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Indicates whether this is a generated column&lt;br /&gt;&lt;em&gt;YES&lt;/em&gt; — if this a generated column&lt;br /&gt;&lt;em&gt;NO&lt;/em&gt; — if this not a generated column&lt;br /&gt;&lt;em&gt;empty string&lt;/em&gt; — if it cannot be determined whether this is a generated column&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;getprimarykeys&quot;&gt;getPrimaryKeys&lt;/h3&gt;
+
+&lt;p&gt;Devuelve un ResultSet con la siguiente información&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Column name&lt;/th&gt;
+      &lt;th&gt;Type&lt;/th&gt;
+      &lt;th&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_CAT&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table catalog (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_SCHEM&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table schema (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;TABLE_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;table name&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;COLUMN_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;column name&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;KEY_SEQ&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;short&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;sequence number within primary key( a value of 1 represents the first column of the primary key, a value of 2 would represent the second column within the primary key).&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;PK_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;primary key name (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;getimportedkeys--getexportedkeys&quot;&gt;getImportedKeys &amp;amp;&amp;amp; getExportedKeys&lt;/h3&gt;
+
+&lt;p&gt;Devuelve un ResultSet con la siguiente información&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Column name&lt;/th&gt;
+      &lt;th&gt;Type&lt;/th&gt;
+      &lt;th&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;PKTABLE_CAT&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;primary key table catalog being imported (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;PKTABLE_SCHEM&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;primary key table schema being imported (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;PKTABLE_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;primary key table name being imported&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;PKCOLUMN_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;primary key column name being imported&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;FKTABLE_CAT&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;foreign key table catalog (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;FKTABLE_SCHEM&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;foreign key table schema (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;FKTABLE_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;foreign key table name&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;FKCOLUMN_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;foreign key column name&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;KEY_SEQ&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;short&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;sequence number within a foreign key( a value of 1 represents the first column of the foreign key, a value of 2 would represent the second column within the foreign key).&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;UPDATE_RULE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;short&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;What happens to a foreign key when the primary key is updated: &lt;br /&gt;importedNoAction - do not allow update of primary key if it has been imported &lt;br /&gt;&lt;code&gt;importedKeyCascade&lt;/code&gt; - change imported key to agree with primary key update &lt;br /&gt;&lt;code&gt;importedKeySetNull&lt;/code&gt; - change imported key to NULL if its primary key has been updated &lt;br /&gt;&lt;code&gt;importedKeySetDefault&lt;/code&gt; - change imported key to default values if its primary key has been updated &lt;br /&gt;&lt;code&gt;importedKeyRestrict&lt;/code&gt; - same as importedKeyNoAction (for ODBC 2.x compatibility)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;DELETE_RULE&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;short&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;What happens to the foreign key when primary is deleted. &lt;br /&gt;&lt;code&gt;importedKeyNoAction&lt;/code&gt; - do not allow delete of primary key if it has been imported &lt;br /&gt;&lt;code&gt;importedKeyCascade&lt;/code&gt; - delete rows that import a deleted key &lt;br /&gt;&lt;code&gt;importedKeySetNull&lt;/code&gt; - change imported key to NULL if its primary key has been deleted &lt;br /&gt;&lt;code&gt;importedKeyRestrict&lt;/code&gt; - same as importedKeyNoAction (for ODBC 2.x compatibility) &lt;br /&gt;&lt;code&gt;importedKeySetDefault&lt;/code&gt; - change imported key to default if its primary key has been deleted&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;FK_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;foreign key name (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;PK_NAME&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;primary key name (may be null)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;DEFERRABILITY&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;short&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;can the evaluation of foreign key constraints be deferred until commit &lt;br /&gt;&lt;code&gt;importedKeyInitiallyDeferred&lt;/code&gt; - see SQL92 for definition &lt;br /&gt;&lt;code&gt;importedKeyInitiallyImmediate&lt;/code&gt; - see SQL92 for definition &lt;br /&gt;&lt;code&gt;importedKeyNotDeferrable&lt;/code&gt; - see SQL92 for definition&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/plantuml/a6e982bf46ad637a6e84a441b4f44304.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Con estos métodos puedo obtener la estructura de una base de datos en particular.
+Si tomamos el ejemplo de Sakila&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1. Obtenemos las tablas a&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DBTable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tablesList&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;DatabaseMetaData&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dmd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;con&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMetaData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dmd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTables&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;sakila&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tableTypes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tablesList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DBTable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;2. Luego por cada tabla obtenemos sus columnas y PrimaryKey&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DBTable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tableList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DBColumn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;columnList&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+
+   &lt;span class=&quot;c1&quot;&gt;//Columns&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dmd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getColumns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;sakila&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTableName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()){&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;columnList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DBColumn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
+   &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setColumns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;columnList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+   &lt;span class=&quot;c1&quot;&gt;//PrimaryKey&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DBPrimaryKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;primaryKeyList&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dmd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPrimaryKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;sakila&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTableName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()){&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;primaryKeyList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DBPrimaryKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
+   &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setPrimaryKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;primaryKeyList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;3. Obtenemos las ForeignKeys&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DBForeignKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foreignKeyList&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;DatabaseMetaData&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dmd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;con&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMetaData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;ResultSet&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dmd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getImportedKeys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;sakila&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTableName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;foreignKeyList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DBForeignKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
+ &lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setForeignKeyList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreignKeyList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;4. Establecemos las relaciones entre tablas las ForeignKeys&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Ya tenemos el modelo armado y con datos para poder trabajarlos. Utilizando algún motor de plantillas se puede utilizar para generar, entre otras cosas, código. desde JavaBeans, archivos de mapeo de HIbrenate, etc. Yo lo voy a utilizar para crear una base de grafos donde se encuentre guardados los metadatos de una base relacional. después mostraré como se puede navegar y descubrir las relaciones existente en este esquema&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>JDBC - Metadata</title>
+   <link href="http://adarraidou.github.io/es/2014/08/08/jdbc-metadata/"/>
+   <updated>2014-08-08T00:26:29-03:00</updated>
+   <id>http://adarraidou.github.io/es/2014/08/08/jdbc-metadata</id>
+   <content type="html">&lt;p&gt;The Java Database Connectivity (JDBC) API is the industry standard for database-independent connectivity between the Java programming language and a wide range of databases  SQL databases and other tabular data sources, such as spreadsheets or flat files. The JDBC API provides a call-level API for SQL-based database access.&lt;/p&gt;
+
+&lt;p&gt;JDBC technology allows you to use the Java programming language to exploit “Write Once, Run Anywhere” capabilities for applications that require access to enterprise data. With a JDBC technology-enabled driver, you can connect all corporate data even in a heterogeneous environment.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Sakila - Metadata</title>
+   <link href="http://adarraidou.github.io/es/2014/08/08/sakila-metadata-graph/"/>
+   <updated>2014-08-08T00:25:21-03:00</updated>
+   <id>http://adarraidou.github.io/es/2014/08/08/sakila-metadata-graph</id>
+   <content type="html">&lt;p&gt;Buscando probar un base de datos NoSQL, más precisamente una base de grafos como &lt;a href=&quot;http://neo4j.com&quot;&gt;Neo4j&lt;/a&gt;, me di cuenta que no tenia datos para hacerlo.
+En verdad si tenía, podía utilizar &lt;a href=&quot;http://docs.neo4j.org/chunked/stable/cypherdoc-movie-database.html&quot;&gt;cypher&lt;/a&gt; pero quería ver como &lt;em&gt;acomodar&lt;/em&gt; una base de datos relacional en este nuevo esquema.
+Para esto me propuse &lt;strong&gt;migrar&lt;/strong&gt; la base de datos &lt;a href=&quot;http://dev.mysql.com/doc/sakila/en/&quot;&gt;sakila&lt;/a&gt;, pasarla de un esquema relacional a uno de grafos.&lt;/p&gt;
+
+&lt;p&gt;Comenzando por las tablas y relaciones para luego continuar con las vistas.&lt;/p&gt;
+
+&lt;p&gt;Mientras lo iba realizando me di cuenta que podía generalizar el proceso demanera que sirva para otras bases, no solo sakila.&lt;/p&gt;
+
+&lt;p&gt;Al principio queria ver el esquema, como se acomodaba a este paradigma, por lo que &lt;strong&gt;generé&lt;/strong&gt; una base de datos en neo4j que contenía como datos la &lt;strong&gt;estructura de la base relacional&lt;/strong&gt;, es decir las &lt;strong&gt;tablas&lt;/strong&gt;, sus &lt;strong&gt;columnas&lt;/strong&gt;, y las &lt;strong&gt;relaciones&lt;/strong&gt; entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.&lt;/p&gt;
+
+&lt;p&gt;Una vez echo esto, &lt;strong&gt;migré los datos&lt;/strong&gt; de sakila a neo4j, al principio leyendo los datos utilizando &lt;strong&gt;jdbc&lt;/strong&gt; y generando comandos en &lt;strong&gt;cypher&lt;/strong&gt; que pegaba en la consola de neo4j. 
+Esto funcionó bien hasta que me encontré con las tablas que tenian gran cantidad de registros, ya no me dejaba relizarlo. Entonces creé un proceso que los insertara utilizando &lt;strong&gt;batchInserter&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;En este post voy a migrar la metadata.&lt;/p&gt;
+
+&lt;h1 id=&quot;de-que-la-va-sakila&quot;&gt;¿De que la va &lt;code&gt;Sakila&lt;/code&gt;?&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://dev.mysql.com/doc/workbench/en/images/wb-sakila-eer.png&quot; alt=&quot;Sakila model&quot; /&gt;&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Relational 2 Graph - Metadata</title>
+   <link href="http://adarraidou.github.io/es/2014/08/07/rdbms/"/>
+   <updated>2014-08-07T20:37:30-03:00</updated>
+   <id>http://adarraidou.github.io/es/2014/08/07/rdbms</id>
+   <content type="html">&lt;p&gt;Buscando probar un base de datos NoSQL, más precisamente una base de grafos como &lt;a href=&quot;http://neo4j.com&quot;&gt;Neo4j&lt;/a&gt;, me di cuenta que no tenia datos para hacerlo.
+En verdad si tenía, podía utilizar &lt;a href=&quot;http://docs.neo4j.org/chunked/stable/cypherdoc-movie-database.html&quot;&gt;cypher&lt;/a&gt; pero quería ver como &lt;em&gt;acomodar&lt;/em&gt; una base de datos relacional en este nuevo esquema.
+Para esto me propuse &lt;strong&gt;migrar&lt;/strong&gt; la base de datos &lt;a href=&quot;http://dev.mysql.com/doc/sakila/en/&quot;&gt;sakila&lt;/a&gt;, pasarla de un esquema relacional a uno de grafos.&lt;/p&gt;
+
+&lt;p&gt;Comenzando por las tablas y relaciones para luego continuar con las vistas.&lt;/p&gt;
+
+&lt;p&gt;Mientras lo iba realizando me di cuenta que podía generalizar el proceso demanera que sirva para otras bases, no solo sakila.&lt;/p&gt;
+
+&lt;p&gt;Al principio queria ver el esquema, como se acomodaba a este paradigma, por lo que &lt;strong&gt;generé&lt;/strong&gt; una base de datos en neo4j que contenía como datos la &lt;strong&gt;estructura de la base relacional&lt;/strong&gt;, es decir las &lt;strong&gt;tablas&lt;/strong&gt;, sus &lt;strong&gt;columnas&lt;/strong&gt;, y las &lt;strong&gt;relaciones&lt;/strong&gt; entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.&lt;/p&gt;
+
+&lt;p&gt;Una vez echo esto, &lt;strong&gt;migré los datos&lt;/strong&gt; de sakila a neo4j, al principio leyendo los datos utilizando &lt;strong&gt;jdbc&lt;/strong&gt; y generando comandos en &lt;strong&gt;cypher&lt;/strong&gt; que pegaba en la consola de neo4j. 
+Esto funcionó bien hasta que me encontré con las tablas que tenian gran cantidad de registros, ya no me dejaba relizarlo. Entonces creé un proceso que los insertara utilizando &lt;strong&gt;batchInserter&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;En este post voy a migrar la metadata.&lt;/p&gt;
+
+&lt;h1 id=&quot;de-que-la-va-sakila&quot;&gt;¿De que la va &lt;code&gt;Sakila&lt;/code&gt;?&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://dev.mysql.com/doc/workbench/en/images/wb-sakila-eer.png&quot; alt=&quot;Sakila model&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;plan&quot;&gt;Plan&lt;/h2&gt;
+&lt;p&gt;Los pasos que tengo que realizar son:&lt;/p&gt;
+
+&lt;h3 id=&quot;metadata&quot;&gt;Metadata&lt;/h3&gt;
+&lt;p&gt;Analizar la estructura del modelo relacional, el de grafos y sus las similitudes&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Entender los patrones básicos de los grafos para poder traducir las tablas y sus relaciones (FK -&amp;gt; PK). &lt;/li&gt;
+  &lt;li&gt;Migrar la estructura de la base relacional, &lt;strong&gt;no los datos&lt;/strong&gt;. para tener un esquema base e ir probando diferentes cosas.&lt;/li&gt;
+  &lt;li&gt;Ver esta estructura en un gráfico.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;definir-la-estructura-a-migrar&quot;&gt;Definir la estructura a migrar&lt;/h3&gt;
+&lt;p&gt;En una primera instancia voy a migrar la base completa, por cada tupla genero un nodo, por cada &lt;em&gt;foreign key&lt;/em&gt; en una tabla, una relación en la nueva base&lt;/p&gt;
+
+&lt;h1 id=&quot;paradigms&quot;&gt;Paradigms&lt;/h1&gt;
+
+&lt;h2 id=&quot;rdbms&quot;&gt;RDBMS&lt;/h2&gt;
+
+&lt;h3 id=&quot;sakila-example&quot;&gt;Sakila example&lt;/h3&gt;
+&lt;p&gt;Aca explico de que se trata el modelo de la base de datos de prueba &lt;strong&gt;sakila&lt;/strong&gt;, que tiene actores, &lt;code&gt;peliculas&lt;/code&gt;, &lt;code&gt;alquileres&lt;/code&gt; y como se crean las tablas intermedias, por ejemplo &lt;code&gt;film_has_category&lt;/code&gt;.
+puedo empezar por hacer un der normal y luego agregarle esas tablas, para señalar que solo estan para adecuar el modelo de datos al modelo de un rdbms.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;ERD&lt;/th&gt;
+      &lt;th&gt;Graph Diagram&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;img src=&quot;/images/plantuml/7c591096c4850e1dbbd670ca1a3daa69.png&quot; /&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;img src=&quot;/images/plantuml/b8dc3f7c75166a4e6f6a74bf892be793.png&quot; /&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;graph&quot;&gt;Graph&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Simplified model&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/plantuml/088de128a7f4553aa53dae4611576582.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;object&quot;&gt;Object&lt;/h2&gt;
+
+&lt;p&gt;Aqui señalo como es el modelo de &lt;code&gt;ResultSet&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/plantuml/d9e8691d3eaa52eab5d59036d7db2004.png&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;generalizacin&quot;&gt;Generalización&lt;/h1&gt;
+
+&lt;h2 id=&quot;model&quot;&gt;Model&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Model&lt;/th&gt;
+      &lt;th&gt;RDBMS&lt;/th&gt;
+      &lt;th&gt;Java&lt;/th&gt;
+      &lt;th&gt;Graph&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Tipo&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Table&lt;/td&gt;
+      &lt;td&gt;DBTable&lt;/td&gt;
+      &lt;td&gt;(node:&lt;code&gt;DBTable&lt;/code&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Name&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;table.name&lt;/td&gt;
+      &lt;td&gt;name : &lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;node.&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Metadata&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;table.meta&lt;/td&gt;
+      &lt;td&gt;meta: &lt;code&gt;[key:value] getters and setters&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;node.&lt;code&gt;properties&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Properties&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;table.columns&lt;/td&gt;
+      &lt;td&gt;columnList : &lt;code&gt;List &amp;lt;DBColumn&amp;gt;&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;(node:DBTable)-[:HAS_COLUMN]-(c:DBColumn)&lt;/code&gt;&lt;br /&gt;  &lt;code&gt;return c&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Relationships&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;table.fkList&lt;/td&gt;
+      &lt;td&gt;fkList : &lt;code&gt;List&amp;lt;DBImportedKey&amp;gt;&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;(node:DBTable)-[fk:FK_TYPE]-(node2:DBTable)&lt;/code&gt;&lt;br /&gt;  &lt;code&gt;return fk&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;property&quot;&gt;Property&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Model&lt;/th&gt;
+      &lt;th&gt;RDBMS&lt;/th&gt;
+      &lt;th&gt;Java&lt;/th&gt;
+      &lt;th&gt;Graph&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Tipo&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Column&lt;/td&gt;
+      &lt;td&gt;DBColumn&lt;/td&gt;
+      &lt;td&gt;(node:&lt;code&gt;DBColumn&lt;/code&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Name&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;column.name&lt;/td&gt;
+      &lt;td&gt;name: &lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;node.&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Metadata&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;column.meta&lt;/td&gt;
+      &lt;td&gt;meta: &lt;code&gt;[key:value] getters and setters&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;node.&lt;code&gt;properties&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Relationships&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;column.fkColumn&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;(node:DBColumn)-[fkCol:IS_FK_COL]-(node2:DBColumn)&lt;/code&gt;&lt;br /&gt;  &lt;code&gt;return fkCol&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;relationship&quot;&gt;Relationship&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Model&lt;/th&gt;
+      &lt;th&gt;RDBMS&lt;/th&gt;
+      &lt;th&gt;Graph&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Tipo&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;ImportedKey&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;(t1:DBTable)-[rel:IS_FK_COL]-(t2:DBTable)&lt;/code&gt;&lt;br /&gt;&lt;code&gt;return rel&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Name&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;importedKey.fkName&lt;/td&gt;
+      &lt;td&gt;rel.&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Metadata&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;importedKey.meta&lt;/td&gt;
+      &lt;td&gt;rel.&lt;code&gt;properties&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;optimizar-la-migracin&quot;&gt;Optimizar la migración&lt;/h3&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;#&lt;/h2&gt;
+
+&lt;h1 id=&quot;procesar-jdbc-metadata&quot;&gt;Procesar JDBC Metadata&lt;/h1&gt;
+&lt;p&gt;Que es una base de datos relacional?
+Bueno es esto &lt;a href=&quot;http://dev.mysql.com/doc/index-other.html&quot;&gt;mysql&lt;/a&gt;
+Para poder leer esta estructura utilizo las apis &lt;a href=&quot;http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/&quot;&gt;jdbc&lt;/a&gt; de java, primero leo de &lt;a href=&quot;http://docs.oracle.com/javase/7/docs/api/java/sql/ResultSet.html&quot;&gt;java.sql.ResultSet&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;procesa-jdbc-metadata&quot;&gt;Procesa JDBC Metadata&lt;/h2&gt;
+&lt;p&gt;Carga de objetos
+————-&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Tabla1&lt;/th&gt;
+      &lt;th&gt;tabla1_has_tabla2&lt;/th&gt;
+      &lt;th&gt;Tabla2&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;film&lt;/td&gt;
+      &lt;td&gt;film_has_actor&lt;/td&gt;
+      &lt;td&gt;actor&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;film&lt;/td&gt;
+      &lt;td&gt;film_has_actor&lt;/td&gt;
+      &lt;td&gt;actor&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;film&lt;/td&gt;
+      &lt;td&gt;film_has_actor&lt;/td&gt;
+      &lt;td&gt;actor&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;genera-archivos&quot;&gt;Genera archivos&lt;/h1&gt;
+&lt;p&gt;##Archivos Cypher
+###JavaBeans
+###etc
+#BatchImport
+##Metadata en Neo4J
+##Datos de la base relacional
+#Depura relaciones de grafos&lt;/p&gt;
+
+&lt;h2 id=&quot;hacer-una-diapositiva-para-ver-la-evolucin&quot;&gt;Hacer una diapositiva para ver la evolución&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Base level&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/plantuml/0c3bbe6f0fcd28ca8934068f86fa687b.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Graph&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/plantuml/39e2971b385c903ea9c02087ad6d6288.png&quot; /&gt;&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Welcome to Jekyll!</title>
+   <link href="http://adarraidou.github.io/2014/07/19/welcome-to-jekyll/"/>
+   <updated>2014-07-19T16:49:31-03:00</updated>
+   <id>http://adarraidou.github.io/2014/07/19/welcome-to-jekyll</id>
+   <content type="html">&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory - edit this post and re-build (or run with the &lt;code&gt;-w&lt;/code&gt; switch) to see your changes!
+To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention: YYYY-MM-DD-name-of-post.ext.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Introducing Hyde</title>
+   <link href="http://adarraidou.github.io/2013/12/28/introducing-hyde/"/>
+   <updated>2013-12-28T00:00:00-03:00</updated>
+   <id>http://adarraidou.github.io/2013/12/28/introducing-hyde</id>
+   <content type="html">&lt;p&gt;Hyde is a brazen two-column &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; theme that pairs a prominent sidebar with uncomplicated content. It’s based on &lt;a href=&quot;http://getpoole.com&quot;&gt;Poole&lt;/a&gt;, the Jekyll butler.&lt;/p&gt;
+
+&lt;h3 id=&quot;built-on-poole&quot;&gt;Built on Poole&lt;/h3&gt;
+
+&lt;p&gt;Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by &lt;a href=&quot;https://twitter.com/mdo&quot;&gt;@mdo&lt;/a&gt;. Poole, and every theme built on it (like Hyde here) includes the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Complete Jekyll setup included (layouts, config, &lt;a href=&quot;/404&quot;&gt;404&lt;/a&gt;, &lt;a href=&quot;/atom.xml&quot;&gt;RSS feed&lt;/a&gt;, posts, and &lt;a href=&quot;/about&quot;&gt;example page&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Mobile friendly design and development&lt;/li&gt;
+  &lt;li&gt;Easily scalable text and component sizing with &lt;code&gt;rem&lt;/code&gt; units in the CSS&lt;/li&gt;
+  &lt;li&gt;Support for a wide gamut of HTML elements&lt;/li&gt;
+  &lt;li&gt;Related posts (time-based, because Jekyll) below each post&lt;/li&gt;
+  &lt;li&gt;Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;hyde-features&quot;&gt;Hyde features&lt;/h3&gt;
+
+&lt;p&gt;In addition to the features of Poole, Lanyon adds the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Sidebar includes support for textual modules and a dynamically generated navigation with active link support&lt;/li&gt;
+  &lt;li&gt;Two orientations for content and sidebar, default (left sidebar) and &lt;a href=&quot;https://github.com/poole/lanyon#reverse-layout&quot;&gt;reverse&lt;/a&gt; (right sidebar), available via &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; classes&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/poole/hyde#themes&quot;&gt;Eight optional color schemes&lt;/a&gt;, available via &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; classes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/poole/hyde#readme&quot;&gt;Head to the readme&lt;/a&gt; to learn more.&lt;/p&gt;
+
+&lt;h3 id=&quot;browser-support&quot;&gt;Browser support&lt;/h3&gt;
+
+&lt;p&gt;Hyde is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.&lt;/p&gt;
+
+&lt;h3 id=&quot;download&quot;&gt;Download&lt;/h3&gt;
+
+&lt;p&gt;Hyde is developed on and hosted with GitHub. Head to the &lt;a href=&quot;https://github.com/poole/hyde&quot;&gt;GitHub repository&lt;/a&gt; for downloads, bug reports, and features requests.&lt;/p&gt;
+
+&lt;p&gt;Thanks!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Example content</title>
+   <link href="http://adarraidou.github.io/2012/02/07/example-content/"/>
+   <updated>2012-02-07T00:00:00-03:00</updated>
+   <id>http://adarraidou.github.io/2012/02/07/example-content</id>
+   <content type="html">&lt;p&gt;This blog post shows a few different types of content that’s supported and styled with Hyde. Basic typography, images, and code are all supported.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Cum sociis natoque penatibus et magnis &lt;a href=&quot;#&quot;&gt;dis parturient montes&lt;/a&gt;, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Curabitur blandit tempus porttitor. &lt;strong&gt;Nullam quis risus eget urna mollis&lt;/strong&gt; ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Etiam porta &lt;em&gt;sem malesuada magna&lt;/em&gt; mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.&lt;/p&gt;
+
+&lt;h2 id=&quot;heading&quot;&gt;Heading&lt;/h2&gt;
+
+&lt;p&gt;Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+
+&lt;h3 id=&quot;sub-heading&quot;&gt;Sub-heading&lt;/h3&gt;
+
+&lt;p&gt;Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Example can be run directly in your JavaScript console&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Create a function that takes two arguments and returns the sum of those arguments&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;adder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;b&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;return a + b&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Call the function&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;adder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// &amp;gt; 8&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.&lt;/p&gt;
+
+&lt;h3 id=&quot;sub-heading-1&quot;&gt;Sub-heading&lt;/h3&gt;
+
+&lt;p&gt;Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Praesent commodo cursus magna, vel scelerisque nisl consectetur et.&lt;/li&gt;
+  &lt;li&gt;Donec id elit non mi porta gravida at eget metus.&lt;/li&gt;
+  &lt;li&gt;Nulla vitae elit libero, a pharetra augue.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Vestibulum id ligula porta felis euismod semper.&lt;/li&gt;
+  &lt;li&gt;Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&lt;/li&gt;
+  &lt;li&gt;Maecenas sed diam eget risus varius blandit sit amet non magna.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Want to see something else added? &lt;a href=&quot;https://github.com/mdo/hyde/issues/new&quot;&gt;Open an issue.&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>What's Jekyll?</title>
+   <link href="http://adarraidou.github.io/2012/02/06/whats-jekyll/"/>
+   <updated>2012-02-06T00:00:00-03:00</updated>
+   <id>http://adarraidou.github.io/2012/02/06/whats-jekyll</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From &lt;a href=&quot;https://github.com/mojombo/jekyll/blob/master/README.markdown&quot;&gt;the project’s readme&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Jekyll is a simple, blog aware, static site generator. It takes a template directory […] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It’s an immensely useful tool and one we encourage you to use here with Hyde.&lt;/p&gt;
+
+&lt;p&gt;Find out more by &lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;visiting the project on GitHub&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Parte 4 - Borrador de una entidad</title>
+   <link href="http://adarraidou.github.io/2009/09/15/Borrador-de-una-entidad/"/>
+   <updated>2009-09-15T16:26:00-03:00</updated>
+   <id>http://adarraidou.github.io/2009/09/15/Borrador-de-una-entidad</id>
+   <content type="html">&lt;h1 id=&quot;borrador-de-una-entidad&quot;&gt;Borrador de una entidad&lt;/h1&gt;
+
+&lt;p&gt;Para pasar en limpio lo que tengo sobre entidades, sin tener en cuenta la herencia y no entrar en más detalle con otras anotaciones o las validaciones, una clase de una entidad puede componerse de la siguiente forma:
+De acuerdo a este modelo vamos a tener las siguientes clases.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//properties&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Identity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ies&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Id&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//Para mas de un campo en la PK&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@EmbbededId&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;usa&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;una&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clase&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Embbedable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@IdClass&lt;/span&gt;        &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tiene&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;una&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clase&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;propia&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Basic&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Embbeded&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@OneToOne&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@OneToMany&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@ManyToOne&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@ManyToMany&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//Derived identities&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@MappedById&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;nomColumnaPk&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// maps to nomColumnaPk attribute of @EmbeddedId (@ManyToOne, @OneToOne, ¿otros?)&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@ElementCollection&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//Getter and Setters&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;getProperties&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;setProperties&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//Otros&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;equals&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;toString&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Parte 3 - Mapeo de propiedades con JPA – Ejemplo</title>
+   <link href="http://adarraidou.github.io/2009/09/10/Mapeo-de-propiedades-con-JPA%20%E2%80%93%20Ejemplo/"/>
+   <updated>2009-09-10T16:26:00-03:00</updated>
+   <id>http://adarraidou.github.io/2009/09/10/Mapeo-de-propiedades-con-JPA – Ejemplo</id>
+   <content type="html">&lt;h1 id=&quot;mapeo-de-propiedades-con-jpa--ejemplo&quot;&gt;Mapeo de propiedades con JPA – Ejemplo&lt;/h1&gt;
+
+&lt;p&gt;Este es un simple modelo de datos que corresponde a un sistema que registra el alquiler de películas y datos de los socios.
+&lt;img src=&quot;http://adarraidou.files.wordpress.com/2009/09/modelo-de-datos-video-club.png?w=595&quot; alt=&quot;modelo de datos video club&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;De acuerdo a este modelo vamos a tener las siguientes clases.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Tabla&lt;/th&gt;
+      &lt;th&gt;Clase&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Peliculas&lt;/td&gt;
+      &lt;td&gt;Pelicula&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Copias_Peliculas&lt;/td&gt;
+      &lt;td&gt;CopiaPelicula&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Formatos&lt;/td&gt;
+      &lt;td&gt;Formato&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Socios&lt;/td&gt;
+      &lt;td&gt;Socio&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Alquileres&lt;/td&gt;
+      &lt;td&gt;Alquiler&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Ciudades&lt;/td&gt;
+      &lt;td&gt;Ciudad&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;clase-socio&quot;&gt;Clase &lt;code&gt;Socio&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Una de las cosas que vamos a necesitar es indicar como se identifica cada socio (es decir la clave primaria), que propiedad corresponde a que columna, si una propiedad se representa por un objeto de una Entidad en vez de un tipo básico (Ciudad por ejemplo), y si queremos agrupar ciertas columnas que tienen un sentido de dominio (las columnas referidas a la direccion por ejemplo). En la siguiente tabla mostramos esto:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Propiedad&lt;/th&gt;
+      &lt;th&gt;Columna&lt;/th&gt;
+      &lt;th&gt;Tipo&lt;/th&gt;
+      &lt;th&gt;Anotación&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;id&lt;/td&gt;
+      &lt;td&gt;socio_id&lt;/td&gt;
+      &lt;td&gt;Integer&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Id&lt;/code&gt;&lt;br /&gt; &lt;code&gt;@Column(name = &quot;socio_id&quot;)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;nroSocio&lt;/td&gt;
+      &lt;td&gt;nro_socio&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Column(name = &quot;nroSocio&quot;)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;nombre&lt;/td&gt;
+      &lt;td&gt;nombre&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;apellido&lt;/td&gt;
+      &lt;td&gt;apellido&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;direccion&lt;/td&gt;
+      &lt;td&gt;ciudad_id&lt;br /&gt;codigo_postal&lt;br /&gt;dir_calle&lt;br /&gt;dir_numero&lt;br /&gt;dir_piso dir_depto&lt;/td&gt;
+      &lt;td&gt;Direccion&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Embedded&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;fechaAlta&lt;/td&gt;
+      &lt;td&gt;fecha_alta&lt;/td&gt;
+      &lt;td&gt;java.util.Date&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Temporal(TemporalType.DATE)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;telefono&lt;/td&gt;
+      &lt;td&gt;telefono&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ultimaActializacion&lt;/td&gt;
+      &lt;td&gt;ultima_actualizacion&lt;/td&gt;
+      &lt;td&gt;java.util.Date&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Temporal(TemporalType.TIMESTAMP)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Ejemplo propiedad socio_id:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Id&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@GeneratedValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strategy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GenerationType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;IDENTITY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Basic&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optional&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;socio_id&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Short&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;id--generatedvalue&quot;&gt;@Id – @GeneratedValue&lt;/h3&gt;
+&lt;p&gt;La columna &lt;code&gt;socios_id&lt;/code&gt; es la clave primaria de la tabla Socios, es decir que la identifica univocamente. para indicar esto usamos la anotación &lt;code&gt;@Id&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Nota: Las anotaciones &lt;code&gt;@Id&lt;/code&gt; y &lt;code&gt;@GeneratedValue&lt;/code&gt; seran desarroladas en otro momento cuando se vean los distintos casos de identificación de claves primarias y la generación de los valores de estas.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;basic&quot;&gt;@Basic&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;@Basic(optional = false)&lt;/code&gt; indica que este campo es obligatorio&lt;/p&gt;
+
+&lt;h3 id=&quot;column&quot;&gt;@Column&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;@Column(name = &quot;socio_id&quot;)&lt;/code&gt; por defecto se toma el nombre de la propiedad como nombre de la columna con la cual se mapea, como en este caso se llaman distinto &lt;strong&gt;(socio_id → id)&lt;/strong&gt; hay que indicarle cual es el nombre de la columna.&lt;/p&gt;
+
+&lt;p&gt;Para las propiedades &lt;strong&gt;nombre, apellido&lt;/strong&gt; y &lt;strong&gt;telefono&lt;/strong&gt;, como tienen el mismo nombre que sus columnas no hace falta indicarle nada más ya que por defecto se asume que son propiedades persistentes.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;telefono&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;embeddable--embedded&quot;&gt;@Embeddable – @Embedded&lt;/h3&gt;
+
+&lt;p&gt;Veamos un caso especial que sucede con la dirección. En el modelo de datos no existe una tabla llamada Direcciones, sino que es una abstracción que realizamos nosotros para agrupar estas propiedades en una clase que les da sentido. Pero esta clase no es una entidad en si, no tiene una tabla para si misma donde se guarden sus datos. Para esto creamos una clase llamada &lt;strong&gt;Direccion&lt;/strong&gt;, la anotamos con @Embeddable y ponemos las propiedades &lt;strong&gt;ciudad, codigoPostal, calle, numero, piso, departamento&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;clase-direccion&quot;&gt;Clase &lt;code&gt;Direccion&lt;/code&gt;&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Propiedad&lt;/th&gt;
+      &lt;th&gt;Columna&lt;/th&gt;
+      &lt;th&gt;Tipo&lt;/th&gt;
+      &lt;th&gt;Anotación&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ciudad&lt;/td&gt;
+      &lt;td&gt;ciudad_id&lt;/td&gt;
+      &lt;td&gt;Ciudad&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@JoinColumn(name = &quot;ciudad_id&quot;)&lt;/code&gt;&lt;br /&gt;&lt;code&gt;@ManyToOne&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;codigoPostal&lt;/td&gt;
+      &lt;td&gt;codigo_postal&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Column(name = &quot;codigo_postal&quot;)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;calle&lt;/td&gt;
+      &lt;td&gt;dir_calle&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Column(name = &quot;dir_callel&quot;)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;numero&lt;/td&gt;
+      &lt;td&gt;dir_numero&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Column(name = &quot;dir_numero&quot;)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;piso&lt;/td&gt;
+      &lt;td&gt;dir_piso&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Column(name = &quot;dir_piso&quot;)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;departamento&lt;/td&gt;
+      &lt;td&gt;dir_depto&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;@Column(name = &quot;dir_depto&quot;)&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Esta anotación no tiene atributos.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Embeddable&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Direccion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;    &lt;span class=&quot;nd&quot;&gt;@JoinColumn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;ciudad_id&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;    &lt;span class=&quot;nd&quot;&gt;@ManyToOne&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Ciudad&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ciudad&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;    &lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;codigo_postal&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;codigoPostal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;    &lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;dir_calle&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;    &lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;dir_numero&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numero&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;    &lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;dir_piso&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt;    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;piso&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt;    &lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;dir_dpto&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt;    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;departamento&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;    &lt;span class=&quot;cm&quot;&gt;/**Getters and Setters*/&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;¿como usamos esto en la clase Socio? Como cualquier tipo de Java pero agregándole la anotación &lt;code&gt;@Embedded&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Embedded&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Direccion&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;direccion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Esta misma clase se puede reutilizar en otras. Por ejemplo si existiese una tabla &lt;em&gt;Proveedores&lt;/em&gt; con datos de dirección. En un futuro desarrollo del tema vamos a ver como se pueden sobreescribir los mapeos de este tipo de propiedades.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;temporal&quot;&gt;@Temporal&lt;/h3&gt;
+&lt;p&gt;Nos quedan los campos &lt;strong&gt;fecha_alta&lt;/strong&gt; y &lt;strong&gt;ultima_actualizacion&lt;/strong&gt; que son de tipo Date el primero y Timestamp en segundo.
+Para esto usamos una anotación nueva, &lt;code&gt;@Temporal&lt;/code&gt;,  esta anotación sirve para indicar que se deben persistir solo tipos de datos &lt;code&gt;java.util.Date&lt;/code&gt;  y &lt;code&gt;java.util.Calendar&lt;/code&gt;. Los valores que acepta son:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;DATE&lt;/strong&gt; – equivalente a &lt;code&gt;java.sql.Date&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;TIME&lt;/strong&gt; – equivalente a &lt;code&gt;java.sql.Time&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;TIMESTAMP&lt;/strong&gt; – equivalente a &lt;code&gt;java.sql.Timestamp&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;fecha_alta&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Temporal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TemporalType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;util&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Date&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fechaAlta&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;ultima_actualizacion&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Temporal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TemporalType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;TIMESTAMP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;util&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Date&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ultimaActualizacion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;clase-pelicula&quot;&gt;Clase &lt;code&gt;Pelicula&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Pasemos ahora a la tabla Peliculas. Listamos a continuación una tabla con las propiedades y sus características&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Propiedad&lt;/th&gt;
+      &lt;th&gt;Columna&lt;/th&gt;
+      &lt;th&gt;Tipo&lt;/th&gt;
+      &lt;th&gt;Anotación&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;id&lt;/td&gt;
+      &lt;td&gt;pelicula_id&lt;/td&gt;
+      &lt;td&gt;Integer&lt;/td&gt;
+      &lt;td&gt;@Id&lt;br /&gt;@Column(name = “pelicula_id”)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;nombre&lt;/td&gt;
+      &lt;td&gt;nombre&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;duracion&lt;/td&gt;
+      &lt;td&gt;duracion&lt;/td&gt;
+      &lt;td&gt;Short&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;calificacion&lt;/td&gt;
+      &lt;td&gt;calificacion&lt;/td&gt;
+      &lt;td&gt;enum Calificacion&lt;/td&gt;
+      &lt;td&gt;@Enumerated(STRING)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;sinopsis&lt;/td&gt;
+      &lt;td&gt;sinopsis&lt;/td&gt;
+      &lt;td&gt;String&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;clase-copiapelicula&quot;&gt;Clase &lt;code&gt;CopiaPelicula&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Pasemos ahora a la tabla CopiaPelicula. Listamos a continuación una tabla con las propiedades y sus características&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Propiedad&lt;/th&gt;
+      &lt;th&gt;Columna&lt;/th&gt;
+      &lt;th&gt;Tipo&lt;/th&gt;
+      &lt;th&gt;Anotación&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;pelicula&lt;/td&gt;
+      &lt;td&gt;pelicula_id&lt;/td&gt;
+      &lt;td&gt;Pelicula&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;nroCopia&lt;/td&gt;
+      &lt;td&gt;nro_copia&lt;/td&gt;
+      &lt;td&gt;Integer&lt;/td&gt;
+      &lt;td&gt;@Column(name = “nro_copia”)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;formato&lt;/td&gt;
+      &lt;td&gt;formato_id&lt;/td&gt;
+      &lt;td&gt;Formato&lt;/td&gt;
+      &lt;td&gt;@JoinColumn(name = “ciudad_id”)&lt;br /&gt;@ManyToOne&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;estado&lt;/td&gt;
+      &lt;td&gt;estado&lt;/td&gt;
+      &lt;td&gt;enum EstadoCopia&lt;/td&gt;
+      &lt;td&gt;@Enumerated(STRING)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;enumerated&quot;&gt;@Enumerated&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Ejemplo 1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;La columna calificacion de la tabla Peliculas esta definida como&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;n&quot;&gt;ENUM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Apta&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;para&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;todo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;público&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.,&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;Sólo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apta&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;para&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mayores&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;de&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;años&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;Sólo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apta&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;para&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mayores&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;de&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;años&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;Sólo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apta&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;para&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mayores&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;de&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;años&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;de&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exhibición&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;condicionada&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Para reflejar esto en la clase Socios usamos un tipo Enum:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Peliculas&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pelicula&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+   &lt;span class=&quot;c1&quot;&gt;//…&lt;/span&gt;
+
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Calificacion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Apta para todo público.&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Sólo apta para mayores de 13 años.&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Sólo apta para mayores de 18 años.&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Sólo apta para mayores de 18 años, de exhibición condicionada.&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+   
+      &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;Calificacion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+   &lt;span class=&quot;nd&quot;&gt;@Enumerated&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Calificacion&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calificacion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+   &lt;span class=&quot;c1&quot;&gt;//…&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Ejemplo 2&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;El Estado de la copia de la película se definió como&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;n&quot;&gt;ENUM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Libre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Alquilado&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;En_Reparacion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Fuera_de_Servicio&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Podemos reflejarlo de la siguiente manera:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Copias_Peliculas&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CopiaPelicula&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EstadoCopia&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;LIBRE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ALQUILADO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EN_REPARACION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FUERA_DE_SERVICIO&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+   &lt;span class=&quot;c1&quot;&gt;//...&lt;/span&gt;
+
+   &lt;span class=&quot;nd&quot;&gt;@Enumerated&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EstadoCopia&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;estado&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Después de tratar el tema de las relaciones entre entidades voy a subir los fuentes de los ejemplos.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Parte 2 - Mapeo de propiedades con JPA</title>
+   <link href="http://adarraidou.github.io/2009/09/10/Mapeo-de-propiedades-con-JPA/"/>
+   <updated>2009-09-10T16:26:00-03:00</updated>
+   <id>http://adarraidou.github.io/2009/09/10/Mapeo-de-propiedades-con-JPA</id>
+   <content type="html">&lt;p&gt;Vimos que para mapear una clase con una tabla usabamos las anotaciones @Entity y @Table, ahora vamos a explicar como mapeamos las propiedades de las clases con las columnas de las tablas.
+Existen distintos tipos de anotaciones para mapear propiedades. Esto depende del tipo de dato de las columnas de la tabla, si es una relación con otra tabla, etc.&lt;/p&gt;
+
+&lt;h1 id=&quot;mapeo-de-propiedades-connbspjpa&quot;&gt;Mapeo de propiedades con JPA&lt;/h1&gt;
+
+&lt;p&gt;Haciendo una breve resumen existen varias anotaciones para realizar esto:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;mapeo-directo&quot;&gt;mapeo directo&lt;/h2&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Basic&lt;/dt&gt;
+  &lt;dd&gt;La anotación Basic es la mas simple de todas, tiene dos atributos &lt;strong&gt;fetch&lt;/strong&gt;, que define que estrategia se usa para traer los datos de la base de datos (&lt;code&gt;FetchType.EAGER | FetchType.LAZY&lt;/code&gt;), y &lt;strong&gt;optional&lt;/strong&gt; que toma valor booleano dependiendo de que el campo pueda o no ser nulo.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Enumerated&lt;/dt&gt;
+  &lt;dd&gt;Se usa cuando se quiere guardar valores enumerados de constantes 	(Ordinales o de Texto). Tiene un solo atributo para configurar que 	es &lt;strong&gt;value&lt;/strong&gt; (&lt;code&gt;EnumType.ORDINAL | EnumType.STRING&lt;/code&gt;).&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Temporal&lt;/dt&gt;
+  &lt;dd&gt;Se usa para campos de tipo &lt;code&gt;java.util.Date&lt;/code&gt; y &lt;code&gt;java.util.Calendar&lt;/code&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Lob&lt;/dt&gt;
+  &lt;dd&gt;Se usa esta anotación junto con un mapeo básico para 	especificar que una propiedad o campo persistente debe ser manejado 	como un &lt;code&gt;Clob, Blob, etc&lt;/code&gt;.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Transient&lt;/dt&gt;
+  &lt;dd&gt;Por defecto JPA supone que todos los campos de una entidad son 	persistentes. Se usa esta anotacion para indicar cuando una 	propiedad no es persistente.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;de-relaciones&quot;&gt;de relaciones…&lt;/h2&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@OneToOne (Uno a Uno)&lt;/dt&gt;
+  &lt;dd&gt;Cuando una entidad A referencia a una Entidad B, y ningún otro A puede referenciar a B, decimos que tenemos una relación OneToOne.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@ManyToOne (Muchos a Uno)&lt;/dt&gt;
+  &lt;dd&gt;Cuando una entidad A referencia a una entidad B, y otros A pueden referenciar a este mismo B, decimos que tenemos una relación 	ManyToOne.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@OneToMany (Uno a Muchos)&lt;/dt&gt;
+  &lt;dd&gt;Cuando una entidad A refencia multiples entidades B, y no hay dos A que referencien el mismo B decimos que tenemos una relación 	OneToMany&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@ManyToMany (Muchos a Muchos)&lt;/dt&gt;
+  &lt;dd&gt;Cuando muchas entidades A referencian a muchas entidades B, y otras entidades A pueden referenciar algunas de las mismas B decimos 	que tenemos una relación ManyToMany.
+- @MapKey
+- @OrderBy&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;y-de-composicin&quot;&gt;…y de composición&lt;/h2&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Embeddable&lt;/dt&gt;
+  &lt;dd&gt;Se usa esta anotación para especificar una clase cuyas 	instancias son almacenadas como parte de una entidad propietaria. 	Cada una de las propiedades o campos de este &lt;strong&gt;Embedded 	Object&lt;/strong&gt; (objeto integrado) es mapeado a la tabla de la 	entidad propietaria.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;hr /&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;@Embedded&lt;/dt&gt;
+  &lt;dd&gt;Se utiliza esta anotación para indicar que se esta usando un 	objeto integrado. Las propiedades de este objeto se mapearan con la 	tabla de la entidad donde esta siendo utilizado.&lt;/dd&gt;
+&lt;/dl&gt;
+
+&lt;p&gt;(Ver ejemplo de &lt;code&gt;Direccion&lt;/code&gt;&amp;gt; y &lt;code&gt;Socio&lt;/code&gt;)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;por-ultimo&quot;&gt;por ultimo&lt;/h2&gt;
+
+&lt;p&gt;Las siguientes anotaciones se utilizan para sobrescribir propiedades y asociaciones que se declaran por ejemplo en herencia de clases, las clases &lt;code&gt;@Embeddable&lt;/code&gt;, etc. Se van a desarrollar en un futuro post.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;@AttributeOverride&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@AttributeOverrides&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@AssociationOverride&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@AssociationOverrides&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Parte 1 - Entidades</title>
+   <link href="http://adarraidou.github.io/2009/09/01/Entidades/"/>
+   <updated>2009-09-01T16:26:00-03:00</updated>
+   <id>http://adarraidou.github.io/2009/09/01/Entidades</id>
+   <content type="html">&lt;h1 id=&quot;entidades&quot;&gt;Entidades&lt;/h1&gt;
+&lt;p&gt;Antes que nada, supongamos que tenemos una base de datos con una tabla llamada &lt;strong&gt;Personas&lt;/strong&gt; definida de la siguiente manera.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;n&quot;&gt;skinparam&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;monochrome&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Persona&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;nombre&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;VARCHAR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;apellido&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;VARCHAR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;45&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Entonces para mapear una clase con esta tabla solo tenemos que definir la clase &lt;code&gt;Personas.java&lt;/code&gt; como sigue.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Personas&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;cm&quot;&gt;/*Campos, Getters and Setters*/&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;La anotación &lt;code&gt;@Entity&lt;/code&gt; sirve para designar una clase POJO (Plain Old Java object) como una entidad para que pueda usar los servicios de JPA.
+Como JPA funciona usando valores por defecto no hace falta indicarle como se llama la tabla, ya que busca una con el mismo nombre que la clase.
+En el caso de que quisieramos que la clase tenga un nombre diferente al de la tabla, &lt;code&gt;Persona&lt;/code&gt; por ejemplo (que está en singular), hay que indicarle cual es la tabla con la que se mapea, para esto se utiliza la anotación &lt;code&gt;@Table&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Personas&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Persona&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;cm&quot;&gt;/*Campos, Getters and Setters*/&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;resumen&quot;&gt;Resumen&lt;/h2&gt;
+&lt;p&gt;Tenemos una tabla llamada &lt;code&gt;Personas&lt;/code&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Creamos una clase (Persona.java o Persona.java por ejemplo).&lt;/li&gt;
+  &lt;li&gt;Dicha clase tiene que tener la anotación &lt;code&gt;@Entity&lt;/code&gt; antes de la definición de la clase.&lt;/li&gt;
+  &lt;li&gt;Si la clase no se llama igual que la tabla debe agregarse la anotación &lt;code&gt;@Table(name=&quot;NombreTabla&quot;)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Implementar la interface &lt;code&gt;java.io.Serializable&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;personajava&quot;&gt;Persona.java&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.io.Serializable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.persistence.Entity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.persistence.Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Personas&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Persona&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Serializable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;cm&quot;&gt;/**********************&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;     * Getters and Setters *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;     ***********************/&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getNombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setNombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;nombre&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nombre&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getApellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setApellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;apellido&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apellido&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;links-asociados&quot;&gt;Links asociados&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://jcp.org/en/jsr/detail?id=317&quot;&gt;JSR 317: JavaTM Persistence 2.0&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.oracle.com/technology/products/ias/toplink/jpa/resources/toplink-jpa-annotations.html&quot;&gt;TopLink JPA Annotation Reference&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+ </entry>
+ 
+
+</feed>

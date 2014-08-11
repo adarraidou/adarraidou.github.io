@@ -1,11 +1,10 @@
 ---
 layout: post
-title:  "Parte 3"
+title:  "Parte 3 - Mapeo de propiedades con JPA – Ejemplo"
 date:   2009-09-10 19:26:00
-categories: RDBMS jpa java
+lang: en
 autor: Augusto Darraidou
 ---
-
 #Mapeo de propiedades con JPA – Ejemplo
 
 
@@ -22,6 +21,7 @@ Formatos | 	Formato
 Socios | 	Socio
 Alquileres | 	Alquiler
 Ciudades | 	Ciudad
+
 
 ##Clase `Socio`
 Una de las cosas que vamos a necesitar es indicar como se identifica cada socio (es decir la clave primaria), que propiedad corresponde a que columna, si una propiedad se representa por un objeto de una Entidad en vez de un tipo básico (Ciudad por ejemplo), y si queremos agrupar ciertas columnas que tienen un sentido de dominio (las columnas referidas a la direccion por ejemplo). En la siguiente tabla mostramos esto:
@@ -84,7 +84,7 @@ departamento	|	dir_depto	|	String	|	`@Column(name = "dir_depto")`
 
 Esta anotación no tiene atributos.
 
-{% highlight java %}
+{% highlight java linenos %}
 @Embeddable
 public class Direccion {
    @JoinColumn(name = "ciudad_id")
@@ -247,4 +247,5 @@ public class CopiaPelicula implements Serializable {
 {% endhighlight %}
 
 Después de tratar el tema de las relaciones entre entidades voy a subir los fuentes de los ejemplos.
+
 

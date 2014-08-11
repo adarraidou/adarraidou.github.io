@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Relational 2 Graph - JDBC &middot; Augusto Darraidou
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-53421933-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Augusto Darraidou</h1>
+      <p class="lead">Proximamente subo algo.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+        <a href="/">Home</a>
+      </li>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <li class="sidebar-nav-item">
+              <a href="/about/">About</a>
+            </li>
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+      <li class="sidebar-nav-item"><a href="https://github.com/adarraidou">GitHub</a></li>
+      <li class="sidebar-nav-item"><a href="https://twitter.com/adarraidou">Twitter</a></li>
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Relational 2 Graph - JDBC</h1>
+  <span class="post-date">09 Aug 2014</span>
+  <h1 id="getting-the-database-structure">Getting the database structure</h1>
+
+<h2 id="java-jdbc-api">Java™ JDBC API</h2>
+<blockquote>
+  <p>The Java Database Connectivity (JDBC) API provides universal data access from the Java programming language. Using the JDBC API, you can access virtually any data source, from relational databases to spreadsheets and flat files. JDBC technology also provides a common base on which tools and alternate interfaces can be built. <br /> <strong>Ref: <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/">JDBC</a></strong></p>
+</blockquote>
+
+<h1 id="databasemetadata">DatabaseMetaData</h1>
+
+<blockquote>
+  <p>This interface is implemented by driver vendors to let users know the capabilities of a Database Management System (DBMS) in combination with the driver based on JDBCTM technology (“JDBC driver”) that is used with it. Different relational DBMSs often support different features, implement features in different ways, and use different data types. In addition, a driver may implement a feature on top of what the DBMS offers. Information returned by methods in this interface applies to the capabilities of a particular driver and a particular DBMS working together. Note that as used in this documentation, the term <strong>database</strong> is used generically to refer to both the driver and DBMS. <br /> <strong>Ref: <a href="http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html">DatabaseMetaData</a></strong></p>
+</blockquote>
+
+<h2 id="methods">Methods</h2>
+<p>These are the methods that we will pay attention</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column name</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ResultSet</td>
+      <td><code>getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types)</code><br />Retrieves the table types available in this database.</td>
+    </tr>
+    <tr>
+      <td>ResultSet</td>
+      <td><code>getColumns(String catalog, String schemaPattern, String tableNamePattern, String columnNamePattern)</code>.<br /> Retrieves a description of table columns available in the specified catalog.</td>
+    </tr>
+    <tr>
+      <td>ResultSet</td>
+      <td><code>getPrimaryKeys(String catalog, String schema, String table)</code> <br /> Retrieves a description of the given table’s primary key columns.</td>
+    </tr>
+    <tr>
+      <td>ResultSet</td>
+      <td><code>getImportedKeys(String catalog, String schema, String table)</code><br /> Retrieves a description of the primary key columns that are referenced by the given table’s foreign key columns (the primary keys imported by a table).</td>
+    </tr>
+    <tr>
+      <td>ResultSet</td>
+      <td><code>getExportedKeys(String catalog, String schema, String table)</code><br /> Retrieves a description of the foreign key columns that reference the given table’s primary key columns (the foreign keys exported by a table).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="gettables">getTables</h3>
+<p>Devuelve un ResultSet con la siguiente información</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>TABLE_CAT</strong></td>
+      <td><code>String</code></td>
+      <td>table catalog (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>TABLE_SCHEM</strong></td>
+      <td><code>String</code></td>
+      <td>table schema (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>TABLE_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>table name</td>
+    </tr>
+    <tr>
+      <td><strong>TABLE_TYPE</strong></td>
+      <td><code>String</code></td>
+      <td>table type. Typical types are “TABLE”, “VIEW”, “SYSTEM TABLE”, “GLOBAL TEMPORARY”, “LOCAL TEMPORARY”, “ALIAS”, “SYNONYM”.</td>
+    </tr>
+    <tr>
+      <td><strong>REMARKS</strong></td>
+      <td><code>String</code></td>
+      <td>explanatory comment on the table</td>
+    </tr>
+    <tr>
+      <td><strong>TYPE_CAT</strong></td>
+      <td><code>String</code></td>
+      <td>the types catalog (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>TYPE_SCHEM</strong></td>
+      <td><code>String</code></td>
+      <td>the types schema (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>TYPE_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>type name (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>SELF_REFERENCING_COL_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>name of the designated “identifier” column of a typed table (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>REF_GENERATION</strong></td>
+      <td><code>String</code></td>
+      <td>specifies how values in SELF_REFERENCING_COL_NAME are created. Values are “SYSTEM”, “USER”, “DERIVED”. (may be null)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="getcolumns">getColumns</h3>
+<p>Devuelve un ResultSet con la siguiente información</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column name</th>
+      <th>Type</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>TABLE_CAT</strong></td>
+      <td><code>String</code></td>
+      <td>table catalog (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>TABLE_SCHEM</strong></td>
+      <td><code>String</code></td>
+      <td>table schema (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>TABLE_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>table name</td>
+    </tr>
+    <tr>
+      <td><strong>COLUMN_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>column name</td>
+    </tr>
+    <tr>
+      <td><strong>DATA_TYPE</strong></td>
+      <td><code>int</code></td>
+      <td>SQL type from java.sql.Types</td>
+    </tr>
+    <tr>
+      <td><strong>TYPE_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>Data source dependent type name, for a UDT the type name is fully qualified</td>
+    </tr>
+    <tr>
+      <td><strong>COLUMN_SIZE</strong></td>
+      <td><code>int</code></td>
+      <td>column size.</td>
+    </tr>
+    <tr>
+      <td><em>BUFFER_LENGTH</em></td>
+      <td>is not used.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><strong>DECIMAL_DIGITS</strong></td>
+      <td><code>int</code></td>
+      <td>the number of fractional digits. Null is returned for data types where DECIMAL_DIGITS is not applicable.</td>
+    </tr>
+    <tr>
+      <td><strong>NUM_PREC_RADIX</strong></td>
+      <td><code>int</code></td>
+      <td>Radix (typically either 10 or 2)</td>
+    </tr>
+    <tr>
+      <td><strong>NULLABLE</strong></td>
+      <td><code>int</code></td>
+      <td>is NULL allowed. <br /><code>columnNoNulls</code>- might not allow NULL values<br /><code>columnNullable</code> - definitely allows NULL values<br /><code>columnNullableUnknown</code> - nullability unknown</td>
+    </tr>
+    <tr>
+      <td><strong>REMARKS</strong></td>
+      <td><code>String</code></td>
+      <td>comment describing column (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>COLUMN_DEF</strong></td>
+      <td><code>String</code></td>
+      <td>default value for the column, which should be interpreted as a string when the value is enclosed in single quotes (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>SQL_DATA_TYPE</strong></td>
+      <td><code>int</code></td>
+      <td>unused</td>
+    </tr>
+    <tr>
+      <td><strong>SQL_DATETIME_SUB</strong></td>
+      <td><code>int</code></td>
+      <td>unused</td>
+    </tr>
+    <tr>
+      <td><strong>CHAR_OCTET_LENGTH</strong></td>
+      <td><code>int</code></td>
+      <td>for char types the maximum number of bytes in the column</td>
+    </tr>
+    <tr>
+      <td><strong>ORDINAL_POSITION</strong></td>
+      <td><code>int</code></td>
+      <td>index of column in table (starting at 1)</td>
+    </tr>
+    <tr>
+      <td><strong>IS_NULLABLE</strong></td>
+      <td><code>String</code></td>
+      <td>ISO rules are used to determine the nullability for a column.<br /><em>YES</em> — if the column can include NULLs<br /><em>NO</em> — if the column cannot include NULLs<br /><em>empty string</em> — if the nullability for the column is unknown</td>
+    </tr>
+    <tr>
+      <td><strong>SCOPE_CATALOG</strong></td>
+      <td><code>String</code></td>
+      <td>catalog of table that is the scope of a reference attribute (null if DATA_TYPE isn’t REF)</td>
+    </tr>
+    <tr>
+      <td><strong>SCOPE_SCHEMA</strong></td>
+      <td><code>String</code></td>
+      <td>schema of table that is the scope of a reference attribute (null if the DATA_TYPE isn’t REF)</td>
+    </tr>
+    <tr>
+      <td><strong>SCOPE_TABLE</strong></td>
+      <td><code>String</code></td>
+      <td>table name that this the scope of a reference attribute (null if the DATA_TYPE isn’t REF)</td>
+    </tr>
+    <tr>
+      <td><strong>SOURCE_DATA_TYPE</strong></td>
+      <td><code>short</code></td>
+      <td>source type of a distinct type or user-generated Ref type, SQL type from java.sql.Types (null if DATA_TYPE isn’t DISTINCT or user-generated REF)</td>
+    </tr>
+    <tr>
+      <td><strong>IS_AUTOINCREMENT</strong></td>
+      <td><code>String</code></td>
+      <td>Indicates whether this column is auto incremented<br /><em>YES</em> — if the column is auto incremented<br /><em>NO</em> — if the column is not auto incremented <br /><em>empty string</em> — if it cannot be determined whether the column is auto incremented</td>
+    </tr>
+    <tr>
+      <td><strong>IS_GENERATEDCOLUMN</strong></td>
+      <td><code>String</code></td>
+      <td>Indicates whether this is a generated column<br /><em>YES</em> — if this a generated column<br /><em>NO</em> — if this not a generated column<br /><em>empty string</em> — if it cannot be determined whether this is a generated column</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="getprimarykeys">getPrimaryKeys</h3>
+
+<p>Devuelve un ResultSet con la siguiente información</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>TABLE_CAT</strong></td>
+      <td><code>String</code></td>
+      <td>table catalog (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>TABLE_SCHEM</strong></td>
+      <td><code>String</code></td>
+      <td>table schema (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>TABLE_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>table name</td>
+    </tr>
+    <tr>
+      <td><strong>COLUMN_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>column name</td>
+    </tr>
+    <tr>
+      <td><strong>KEY_SEQ</strong></td>
+      <td><code>short</code></td>
+      <td>sequence number within primary key( a value of 1 represents the first column of the primary key, a value of 2 would represent the second column within the primary key).</td>
+    </tr>
+    <tr>
+      <td><strong>PK_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>primary key name (may be null)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="getimportedkeys--getexportedkeys">getImportedKeys &amp;&amp; getExportedKeys</h3>
+
+<p>Devuelve un ResultSet con la siguiente información</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PKTABLE_CAT</strong></td>
+      <td><code>String</code></td>
+      <td>primary key table catalog being imported (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>PKTABLE_SCHEM</strong></td>
+      <td><code>String</code></td>
+      <td>primary key table schema being imported (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>PKTABLE_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>primary key table name being imported</td>
+    </tr>
+    <tr>
+      <td><strong>PKCOLUMN_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>primary key column name being imported</td>
+    </tr>
+    <tr>
+      <td><strong>FKTABLE_CAT</strong></td>
+      <td><code>String</code></td>
+      <td>foreign key table catalog (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>FKTABLE_SCHEM</strong></td>
+      <td><code>String</code></td>
+      <td>foreign key table schema (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>FKTABLE_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>foreign key table name</td>
+    </tr>
+    <tr>
+      <td><strong>FKCOLUMN_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>foreign key column name</td>
+    </tr>
+    <tr>
+      <td><strong>KEY_SEQ</strong></td>
+      <td><code>short</code></td>
+      <td>sequence number within a foreign key( a value of 1 represents the first column of the foreign key, a value of 2 would represent the second column within the foreign key).</td>
+    </tr>
+    <tr>
+      <td><strong>UPDATE_RULE</strong></td>
+      <td><code>short</code></td>
+      <td>What happens to a foreign key when the primary key is updated: <br />importedNoAction - do not allow update of primary key if it has been imported <br /><code>importedKeyCascade</code> - change imported key to agree with primary key update <br /><code>importedKeySetNull</code> - change imported key to NULL if its primary key has been updated <br /><code>importedKeySetDefault</code> - change imported key to default values if its primary key has been updated <br /><code>importedKeyRestrict</code> - same as importedKeyNoAction (for ODBC 2.x compatibility)</td>
+    </tr>
+    <tr>
+      <td><strong>DELETE_RULE</strong></td>
+      <td><code>short</code></td>
+      <td>What happens to the foreign key when primary is deleted. <br /><code>importedKeyNoAction</code> - do not allow delete of primary key if it has been imported <br /><code>importedKeyCascade</code> - delete rows that import a deleted key <br /><code>importedKeySetNull</code> - change imported key to NULL if its primary key has been deleted <br /><code>importedKeyRestrict</code> - same as importedKeyNoAction (for ODBC 2.x compatibility) <br /><code>importedKeySetDefault</code> - change imported key to default if its primary key has been deleted</td>
+    </tr>
+    <tr>
+      <td><strong>FK_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>foreign key name (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>PK_NAME</strong></td>
+      <td><code>String</code></td>
+      <td>primary key name (may be null)</td>
+    </tr>
+    <tr>
+      <td><strong>DEFERRABILITY</strong></td>
+      <td><code>short</code></td>
+      <td>can the evaluation of foreign key constraints be deferred until commit <br /><code>importedKeyInitiallyDeferred</code> - see SQL92 for definition <br /><code>importedKeyInitiallyImmediate</code> - see SQL92 for definition <br /><code>importedKeyNotDeferrable</code> - see SQL92 for definition</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><img src="/images/plantuml/a6e982bf46ad637a6e84a441b4f44304.png" /></p>
+
+<p>Con estos métodos puedo obtener la estructura de una base de datos en particular.
+Si tomamos el ejemplo de Sakila</p>
+
+<p><strong>1. Obtenemos las tablas a</strong></p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">DBTable</span><span class="o">&gt;</span> <span class="n">tablesList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="n">DatabaseMetaData</span> <span class="n">dmd</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">();</span>
+<span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">dmd</span><span class="o">.</span><span class="na">getTables</span><span class="o">(</span><span class="s">&quot;sakila&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">tableTypes</span><span class="o">))</span> <span class="o">{</span>
+<span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
+    <span class="n">tablesList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBTable</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
+<span class="o">}</span></code></pre></div>
+
+<p><strong>2. Luego por cada tabla obtenemos sus columnas y PrimaryKey</strong></p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">for</span><span class="o">(</span><span class="n">DBTable</span> <span class="n">table</span> <span class="o">:</span> <span class="n">tableList</span><span class="o">){</span>
+   <span class="n">List</span><span class="o">&lt;</span><span class="n">DBColumn</span><span class="o">&gt;</span> <span class="n">columnList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+   <span class="c1">//Columns</span>
+   <span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">dmd</span><span class="o">.</span><span class="na">getColumns</span><span class="o">(</span><span class="s">&quot;sakila&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">getTableName</span><span class="o">(),</span> <span class="kc">null</span><span class="o">))</span> <span class="o">{</span>
+   <span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
+      <span class="n">columnList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBColumn</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
+   <span class="o">}</span> 
+   <span class="n">table</span><span class="o">.</span><span class="na">setColumns</span><span class="o">(</span><span class="n">columnList</span><span class="o">);</span>
+
+   <span class="c1">//PrimaryKey</span>
+   <span class="n">List</span><span class="o">&lt;</span><span class="n">DBPrimaryKey</span><span class="o">&gt;</span> <span class="n">primaryKeyList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+   <span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">dmd</span><span class="o">.</span><span class="na">getPrimaryKey</span><span class="o">(</span><span class="s">&quot;sakila&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">getTableName</span><span class="o">()))</span> <span class="o">{</span>
+   <span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
+      <span class="n">primaryKeyList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBPrimaryKey</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
+   <span class="o">}</span> 
+   <span class="n">table</span><span class="o">.</span><span class="na">setPrimaryKey</span><span class="o">(</span><span class="n">primaryKeyList</span><span class="o">);</span>
+<span class="o">}</span></code></pre></div>
+
+<p><strong>3. Obtenemos las ForeignKeys</strong></p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">DBForeignKey</span><span class="o">&gt;</span> <span class="n">foreignKeyList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+ <span class="n">DatabaseMetaData</span> <span class="n">dmd</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">();</span>
+ <span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">dmd</span><span class="o">.</span><span class="na">getImportedKeys</span><span class="o">(</span><span class="s">&quot;sakila&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">getTableName</span><span class="o">()))</span> <span class="o">{</span>
+ <span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
+    <span class="n">foreignKeyList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBForeignKey</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
+ <span class="o">}</span> 
+ <span class="n">table</span><span class="o">.</span><span class="na">setForeignKeyList</span><span class="o">(</span><span class="n">foreignKeyList</span><span class="o">);</span></code></pre></div>
+
+<p><strong>4. Establecemos las relaciones entre tablas las ForeignKeys</strong></p>
+
+<p>Ya tenemos el modelo armado y con datos para poder trabajarlos. Utilizando algún motor de plantillas se puede utilizar para generar, entre otras cosas, código. desde JavaBeans, archivos de mapeo de HIbrenate, etc. Yo lo voy a utilizar para crear una base de grafos donde se encuentre guardados los metadatos de una base relacional. después mostraré como se puede navegar y descubrir las relaciones existente en este esquema</p>
+
+
+
+
+</div>
+  
+       <div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'adarraidougithubio'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/es/2014/08/08/jdbc-metadata/">
+            JDBC - Metadata
+            <small>08 Aug 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/es/2014/08/08/sakila-metadata-graph/">
+            Sakila - Metadata
+            <small>08 Aug 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/es/2014/08/07/rdbms/">
+            Relational 2 Graph - Metadata
+            <small>07 Aug 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

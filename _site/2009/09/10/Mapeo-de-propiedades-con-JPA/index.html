@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Parte 2 - Mapeo de propiedades con JPA &middot; Augusto Darraidou
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-53421933-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Augusto Darraidou</h1>
+      <p class="lead">Proximamente subo algo.</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+        <a href="/">Home</a>
+      </li>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <li class="sidebar-nav-item">
+              <a href="/about/">About</a>
+            </li>
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+      <li class="sidebar-nav-item"><a href="https://github.com/adarraidou">GitHub</a></li>
+      <li class="sidebar-nav-item"><a href="https://twitter.com/adarraidou">Twitter</a></li>
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Parte 2 - Mapeo de propiedades con JPA</h1>
+  <span class="post-date">10 Sep 2009</span>
+  <p>Vimos que para mapear una clase con una tabla usabamos las anotaciones @Entity y @Table, ahora vamos a explicar como mapeamos las propiedades de las clases con las columnas de las tablas.
+Existen distintos tipos de anotaciones para mapear propiedades. Esto depende del tipo de dato de las columnas de la tabla, si es una relación con otra tabla, etc.</p>
+
+<h1 id="mapeo-de-propiedades-connbspjpa">Mapeo de propiedades con JPA</h1>
+
+<p>Haciendo una breve resumen existen varias anotaciones para realizar esto:</p>
+
+<hr />
+
+<h2 id="mapeo-directo">mapeo directo</h2>
+
+<dl>
+  <dt>@Basic</dt>
+  <dd>La anotación Basic es la mas simple de todas, tiene dos atributos <strong>fetch</strong>, que define que estrategia se usa para traer los datos de la base de datos (<code>FetchType.EAGER | FetchType.LAZY</code>), y <strong>optional</strong> que toma valor booleano dependiendo de que el campo pueda o no ser nulo.</dd>
+</dl>
+
+<hr />
+
+<dl>
+  <dt>@Enumerated</dt>
+  <dd>Se usa cuando se quiere guardar valores enumerados de constantes 	(Ordinales o de Texto). Tiene un solo atributo para configurar que 	es <strong>value</strong> (<code>EnumType.ORDINAL | EnumType.STRING</code>).</dd>
+</dl>
+
+<hr />
+
+<dl>
+  <dt>@Temporal</dt>
+  <dd>Se usa para campos de tipo <code>java.util.Date</code> y <code>java.util.Calendar</code></dd>
+</dl>
+
+<hr />
+
+<dl>
+  <dt>@Lob</dt>
+  <dd>Se usa esta anotación junto con un mapeo básico para 	especificar que una propiedad o campo persistente debe ser manejado 	como un <code>Clob, Blob, etc</code>.</dd>
+</dl>
+
+<hr />
+
+<dl>
+  <dt>@Transient</dt>
+  <dd>Por defecto JPA supone que todos los campos de una entidad son 	persistentes. Se usa esta anotacion para indicar cuando una 	propiedad no es persistente.</dd>
+</dl>
+
+<hr />
+
+<h2 id="de-relaciones">de relaciones…</h2>
+
+<dl>
+  <dt>@OneToOne (Uno a Uno)</dt>
+  <dd>Cuando una entidad A referencia a una Entidad B, y ningún otro A puede referenciar a B, decimos que tenemos una relación OneToOne.</dd>
+</dl>
+
+<hr />
+
+<dl>
+  <dt>@ManyToOne (Muchos a Uno)</dt>
+  <dd>Cuando una entidad A referencia a una entidad B, y otros A pueden referenciar a este mismo B, decimos que tenemos una relación 	ManyToOne.</dd>
+</dl>
+
+<hr />
+
+<dl>
+  <dt>@OneToMany (Uno a Muchos)</dt>
+  <dd>Cuando una entidad A refencia multiples entidades B, y no hay dos A que referencien el mismo B decimos que tenemos una relación 	OneToMany</dd>
+</dl>
+
+<hr />
+
+<dl>
+  <dt>@ManyToMany (Muchos a Muchos)</dt>
+  <dd>Cuando muchas entidades A referencian a muchas entidades B, y otras entidades A pueden referenciar algunas de las mismas B decimos 	que tenemos una relación ManyToMany.
+- @MapKey
+- @OrderBy</dd>
+</dl>
+
+<hr />
+
+<h2 id="y-de-composicin">…y de composición</h2>
+
+<dl>
+  <dt>@Embeddable</dt>
+  <dd>Se usa esta anotación para especificar una clase cuyas 	instancias son almacenadas como parte de una entidad propietaria. 	Cada una de las propiedades o campos de este <strong>Embedded 	Object</strong> (objeto integrado) es mapeado a la tabla de la 	entidad propietaria.</dd>
+</dl>
+
+<hr />
+
+<dl>
+  <dt>@Embedded</dt>
+  <dd>Se utiliza esta anotación para indicar que se esta usando un 	objeto integrado. Las propiedades de este objeto se mapearan con la 	tabla de la entidad donde esta siendo utilizado.</dd>
+</dl>
+
+<p>(Ver ejemplo de <code>Direccion</code>&gt; y <code>Socio</code>)</p>
+
+<hr />
+
+<h2 id="por-ultimo">por ultimo</h2>
+
+<p>Las siguientes anotaciones se utilizan para sobrescribir propiedades y asociaciones que se declaran por ejemplo en herencia de clases, las clases <code>@Embeddable</code>, etc. Se van a desarrollar en un futuro post.</p>
+
+<ul>
+  <li><code>@AttributeOverride</code></li>
+  <li><code>@AttributeOverrides</code></li>
+  <li><code>@AssociationOverride</code></li>
+  <li><code>@AssociationOverrides</code></li>
+</ul>
+
+
+
+
+</div>
+  
+       <div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'adarraidougithubio'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/es/2014/08/09/jdbc/">
+            Relational 2 Graph - JDBC
+            <small>09 Aug 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/es/2014/08/08/jdbc-metadata/">
+            JDBC - Metadata
+            <small>08 Aug 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/es/2014/08/08/sakila-metadata-graph/">
+            Sakila - Metadata
+            <small>08 Aug 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

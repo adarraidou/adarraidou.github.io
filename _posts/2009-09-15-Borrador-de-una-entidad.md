@@ -1,11 +1,10 @@
 ---
 layout: post
-title:  "Parte 4"
+title:  "Parte 4 - Borrador de una entidad"
 date:   2009-09-15 19:26:00
-categories: RDBMS jpa java
+lang: en
 autor: Augusto Darraidou
 ---
-
 # Borrador de una entidad
 
 Para pasar en limpio lo que tengo sobre entidades, sin tener en cuenta la herencia y no entrar en más detalle con otras anotaciones o las validaciones, una clase de una entidad puede componerse de la siguiente forma:
@@ -46,4 +45,5 @@ De acuerdo a este modelo vamos a tener las siguientes clases.
     equals
     toString
 {% endhighlight %}
+
 
