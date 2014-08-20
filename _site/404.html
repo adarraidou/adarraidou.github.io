@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/public/css/poole.css">
   <link rel="stylesheet" href="/public/css/syntax.css">
   <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/toc.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   <!-- Icons -->
@@ -81,10 +82,6 @@
           
         
       
-        
-          
-        
-      
 
       <li class="sidebar-nav-item"><a href="https://github.com/adarraidou">GitHub</a></li>
       <li class="sidebar-nav-item"><a href="https://twitter.com/adarraidou">Twitter</a></li>
@@ -102,6 +99,27 @@
 </div>
 
     </div>
+
+    <div id="toc" class="sidebar_toc">
+	 <div class="related" style=" position: absolute; right: 1rem; bottom: 1rem; left: 1rem; font-size: 80%;">
+	  <h2>Related Posts</h2>
+	  <ul class="related-posts">
+	    
+	  </ul>
+	</div>
+    </div>
+
+    
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/public/js/jquery.min.js"></script>
+<script src="/public/js/jquery.toc.js"></script>
+<script type="text/javascript">
+	$('.post').toc();
+</script>
+
 
   </body>
 </html>

@@ -1,0 +1,11 @@
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ "/public/js/jquery.min.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/public/js/jquery.toc.js"| prepend: site.baseurl }}"></script>
+<script type="text/javascript">
+	$('.sidebar_toc').toc();
+</script>
+

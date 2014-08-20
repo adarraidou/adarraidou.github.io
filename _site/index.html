@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/public/css/poole.css">
   <link rel="stylesheet" href="/public/css/syntax.css">
   <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/toc.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   <!-- Icons -->
@@ -81,10 +82,6 @@
           
         
       
-        
-          
-        
-      
 
       <li class="sidebar-nav-item"><a href="https://github.com/adarraidou">GitHub</a></li>
       <li class="sidebar-nav-item"><a href="https://twitter.com/adarraidou">Twitter</a></li>
@@ -100,442 +97,32 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/es/2014/08/09/jdbc/">
-        Relational 2 Graph - JDBC
+      <a href="/es/2014/08/13/cypher/">
+        Relational 2 Graph - Cypher
       </a>
     </h1>
 
-    <span class="post-date">09 Aug 2014</span>
+    <span class="post-date">13 Aug 2014</span>
 
-    <h1 id="getting-the-database-structure">Getting the database structure</h1>
+    <p>En el <a href="jdbc">post anterior</a> vimos como obtener la metadata de la estructura de la base de datos, el paso siguiente es cargarlos en la base de Neo4j.
+Para esto tenemos varias opciones</p>
 
-<h2 id="java-jdbc-api">Java™ JDBC API</h2>
-<blockquote>
-  <p>The Java Database Connectivity (JDBC) API provides universal data access from the Java programming language. Using the JDBC API, you can access virtually any data source, from relational databases to spreadsheets and flat files. JDBC technology also provides a common base on which tools and alternate interfaces can be built. <br /> <strong>Ref: <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/">JDBC</a></strong></p>
-</blockquote>
 
-<h1 id="databasemetadata">DatabaseMetaData</h1>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/es/2014/08/11/jdbc/">
+        Relational 2 Graph - DatabaseMetaData
+      </a>
+    </h1>
 
-<blockquote>
-  <p>This interface is implemented by driver vendors to let users know the capabilities of a Database Management System (DBMS) in combination with the driver based on JDBCTM technology (“JDBC driver”) that is used with it. Different relational DBMSs often support different features, implement features in different ways, and use different data types. In addition, a driver may implement a feature on top of what the DBMS offers. Information returned by methods in this interface applies to the capabilities of a particular driver and a particular DBMS working together. Note that as used in this documentation, the term <strong>database</strong> is used generically to refer to both the driver and DBMS. <br /> <strong>Ref: <a href="http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html">DatabaseMetaData</a></strong></p>
-</blockquote>
+    <span class="post-date">11 Aug 2014</span>
 
-<h2 id="methods">Methods</h2>
-<p>These are the methods that we will pay attention</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Column name</th>
-      <th>Type</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ResultSet</td>
-      <td><code>getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types)</code><br />Retrieves the table types available in this database.</td>
-    </tr>
-    <tr>
-      <td>ResultSet</td>
-      <td><code>getColumns(String catalog, String schemaPattern, String tableNamePattern, String columnNamePattern)</code>.<br /> Retrieves a description of table columns available in the specified catalog.</td>
-    </tr>
-    <tr>
-      <td>ResultSet</td>
-      <td><code>getPrimaryKeys(String catalog, String schema, String table)</code> <br /> Retrieves a description of the given table’s primary key columns.</td>
-    </tr>
-    <tr>
-      <td>ResultSet</td>
-      <td><code>getImportedKeys(String catalog, String schema, String table)</code><br /> Retrieves a description of the primary key columns that are referenced by the given table’s foreign key columns (the primary keys imported by a table).</td>
-    </tr>
-    <tr>
-      <td>ResultSet</td>
-      <td><code>getExportedKeys(String catalog, String schema, String table)</code><br /> Retrieves a description of the foreign key columns that reference the given table’s primary key columns (the foreign keys exported by a table).</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="gettables">getTables</h3>
-<p>Devuelve un ResultSet con la siguiente información</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Column name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>TABLE_CAT</strong></td>
-      <td><code>String</code></td>
-      <td>table catalog (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>TABLE_SCHEM</strong></td>
-      <td><code>String</code></td>
-      <td>table schema (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>TABLE_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>table name</td>
-    </tr>
-    <tr>
-      <td><strong>TABLE_TYPE</strong></td>
-      <td><code>String</code></td>
-      <td>table type. Typical types are “TABLE”, “VIEW”, “SYSTEM TABLE”, “GLOBAL TEMPORARY”, “LOCAL TEMPORARY”, “ALIAS”, “SYNONYM”.</td>
-    </tr>
-    <tr>
-      <td><strong>REMARKS</strong></td>
-      <td><code>String</code></td>
-      <td>explanatory comment on the table</td>
-    </tr>
-    <tr>
-      <td><strong>TYPE_CAT</strong></td>
-      <td><code>String</code></td>
-      <td>the types catalog (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>TYPE_SCHEM</strong></td>
-      <td><code>String</code></td>
-      <td>the types schema (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>TYPE_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>type name (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>SELF_REFERENCING_COL_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>name of the designated “identifier” column of a typed table (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>REF_GENERATION</strong></td>
-      <td><code>String</code></td>
-      <td>specifies how values in SELF_REFERENCING_COL_NAME are created. Values are “SYSTEM”, “USER”, “DERIVED”. (may be null)</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="getcolumns">getColumns</h3>
-<p>Devuelve un ResultSet con la siguiente información</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Column name</th>
-      <th>Type</th>
-      <th> </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>TABLE_CAT</strong></td>
-      <td><code>String</code></td>
-      <td>table catalog (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>TABLE_SCHEM</strong></td>
-      <td><code>String</code></td>
-      <td>table schema (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>TABLE_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>table name</td>
-    </tr>
-    <tr>
-      <td><strong>COLUMN_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>column name</td>
-    </tr>
-    <tr>
-      <td><strong>DATA_TYPE</strong></td>
-      <td><code>int</code></td>
-      <td>SQL type from java.sql.Types</td>
-    </tr>
-    <tr>
-      <td><strong>TYPE_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>Data source dependent type name, for a UDT the type name is fully qualified</td>
-    </tr>
-    <tr>
-      <td><strong>COLUMN_SIZE</strong></td>
-      <td><code>int</code></td>
-      <td>column size.</td>
-    </tr>
-    <tr>
-      <td><em>BUFFER_LENGTH</em></td>
-      <td>is not used.</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><strong>DECIMAL_DIGITS</strong></td>
-      <td><code>int</code></td>
-      <td>the number of fractional digits. Null is returned for data types where DECIMAL_DIGITS is not applicable.</td>
-    </tr>
-    <tr>
-      <td><strong>NUM_PREC_RADIX</strong></td>
-      <td><code>int</code></td>
-      <td>Radix (typically either 10 or 2)</td>
-    </tr>
-    <tr>
-      <td><strong>NULLABLE</strong></td>
-      <td><code>int</code></td>
-      <td>is NULL allowed. <br /><code>columnNoNulls</code>- might not allow NULL values<br /><code>columnNullable</code> - definitely allows NULL values<br /><code>columnNullableUnknown</code> - nullability unknown</td>
-    </tr>
-    <tr>
-      <td><strong>REMARKS</strong></td>
-      <td><code>String</code></td>
-      <td>comment describing column (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>COLUMN_DEF</strong></td>
-      <td><code>String</code></td>
-      <td>default value for the column, which should be interpreted as a string when the value is enclosed in single quotes (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>SQL_DATA_TYPE</strong></td>
-      <td><code>int</code></td>
-      <td>unused</td>
-    </tr>
-    <tr>
-      <td><strong>SQL_DATETIME_SUB</strong></td>
-      <td><code>int</code></td>
-      <td>unused</td>
-    </tr>
-    <tr>
-      <td><strong>CHAR_OCTET_LENGTH</strong></td>
-      <td><code>int</code></td>
-      <td>for char types the maximum number of bytes in the column</td>
-    </tr>
-    <tr>
-      <td><strong>ORDINAL_POSITION</strong></td>
-      <td><code>int</code></td>
-      <td>index of column in table (starting at 1)</td>
-    </tr>
-    <tr>
-      <td><strong>IS_NULLABLE</strong></td>
-      <td><code>String</code></td>
-      <td>ISO rules are used to determine the nullability for a column.<br /><em>YES</em> — if the column can include NULLs<br /><em>NO</em> — if the column cannot include NULLs<br /><em>empty string</em> — if the nullability for the column is unknown</td>
-    </tr>
-    <tr>
-      <td><strong>SCOPE_CATALOG</strong></td>
-      <td><code>String</code></td>
-      <td>catalog of table that is the scope of a reference attribute (null if DATA_TYPE isn’t REF)</td>
-    </tr>
-    <tr>
-      <td><strong>SCOPE_SCHEMA</strong></td>
-      <td><code>String</code></td>
-      <td>schema of table that is the scope of a reference attribute (null if the DATA_TYPE isn’t REF)</td>
-    </tr>
-    <tr>
-      <td><strong>SCOPE_TABLE</strong></td>
-      <td><code>String</code></td>
-      <td>table name that this the scope of a reference attribute (null if the DATA_TYPE isn’t REF)</td>
-    </tr>
-    <tr>
-      <td><strong>SOURCE_DATA_TYPE</strong></td>
-      <td><code>short</code></td>
-      <td>source type of a distinct type or user-generated Ref type, SQL type from java.sql.Types (null if DATA_TYPE isn’t DISTINCT or user-generated REF)</td>
-    </tr>
-    <tr>
-      <td><strong>IS_AUTOINCREMENT</strong></td>
-      <td><code>String</code></td>
-      <td>Indicates whether this column is auto incremented<br /><em>YES</em> — if the column is auto incremented<br /><em>NO</em> — if the column is not auto incremented <br /><em>empty string</em> — if it cannot be determined whether the column is auto incremented</td>
-    </tr>
-    <tr>
-      <td><strong>IS_GENERATEDCOLUMN</strong></td>
-      <td><code>String</code></td>
-      <td>Indicates whether this is a generated column<br /><em>YES</em> — if this a generated column<br /><em>NO</em> — if this not a generated column<br /><em>empty string</em> — if it cannot be determined whether this is a generated column</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="getprimarykeys">getPrimaryKeys</h3>
-
-<p>Devuelve un ResultSet con la siguiente información</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Column name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>TABLE_CAT</strong></td>
-      <td><code>String</code></td>
-      <td>table catalog (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>TABLE_SCHEM</strong></td>
-      <td><code>String</code></td>
-      <td>table schema (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>TABLE_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>table name</td>
-    </tr>
-    <tr>
-      <td><strong>COLUMN_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>column name</td>
-    </tr>
-    <tr>
-      <td><strong>KEY_SEQ</strong></td>
-      <td><code>short</code></td>
-      <td>sequence number within primary key( a value of 1 represents the first column of the primary key, a value of 2 would represent the second column within the primary key).</td>
-    </tr>
-    <tr>
-      <td><strong>PK_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>primary key name (may be null)</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="getimportedkeys--getexportedkeys">getImportedKeys &amp;&amp; getExportedKeys</h3>
-
-<p>Devuelve un ResultSet con la siguiente información</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Column name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>PKTABLE_CAT</strong></td>
-      <td><code>String</code></td>
-      <td>primary key table catalog being imported (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>PKTABLE_SCHEM</strong></td>
-      <td><code>String</code></td>
-      <td>primary key table schema being imported (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>PKTABLE_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>primary key table name being imported</td>
-    </tr>
-    <tr>
-      <td><strong>PKCOLUMN_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>primary key column name being imported</td>
-    </tr>
-    <tr>
-      <td><strong>FKTABLE_CAT</strong></td>
-      <td><code>String</code></td>
-      <td>foreign key table catalog (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>FKTABLE_SCHEM</strong></td>
-      <td><code>String</code></td>
-      <td>foreign key table schema (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>FKTABLE_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>foreign key table name</td>
-    </tr>
-    <tr>
-      <td><strong>FKCOLUMN_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>foreign key column name</td>
-    </tr>
-    <tr>
-      <td><strong>KEY_SEQ</strong></td>
-      <td><code>short</code></td>
-      <td>sequence number within a foreign key( a value of 1 represents the first column of the foreign key, a value of 2 would represent the second column within the foreign key).</td>
-    </tr>
-    <tr>
-      <td><strong>UPDATE_RULE</strong></td>
-      <td><code>short</code></td>
-      <td>What happens to a foreign key when the primary key is updated: <br />importedNoAction - do not allow update of primary key if it has been imported <br /><code>importedKeyCascade</code> - change imported key to agree with primary key update <br /><code>importedKeySetNull</code> - change imported key to NULL if its primary key has been updated <br /><code>importedKeySetDefault</code> - change imported key to default values if its primary key has been updated <br /><code>importedKeyRestrict</code> - same as importedKeyNoAction (for ODBC 2.x compatibility)</td>
-    </tr>
-    <tr>
-      <td><strong>DELETE_RULE</strong></td>
-      <td><code>short</code></td>
-      <td>What happens to the foreign key when primary is deleted. <br /><code>importedKeyNoAction</code> - do not allow delete of primary key if it has been imported <br /><code>importedKeyCascade</code> - delete rows that import a deleted key <br /><code>importedKeySetNull</code> - change imported key to NULL if its primary key has been deleted <br /><code>importedKeyRestrict</code> - same as importedKeyNoAction (for ODBC 2.x compatibility) <br /><code>importedKeySetDefault</code> - change imported key to default if its primary key has been deleted</td>
-    </tr>
-    <tr>
-      <td><strong>FK_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>foreign key name (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>PK_NAME</strong></td>
-      <td><code>String</code></td>
-      <td>primary key name (may be null)</td>
-    </tr>
-    <tr>
-      <td><strong>DEFERRABILITY</strong></td>
-      <td><code>short</code></td>
-      <td>can the evaluation of foreign key constraints be deferred until commit <br /><code>importedKeyInitiallyDeferred</code> - see SQL92 for definition <br /><code>importedKeyInitiallyImmediate</code> - see SQL92 for definition <br /><code>importedKeyNotDeferrable</code> - see SQL92 for definition</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<p><img src="/images/plantuml/a6e982bf46ad637a6e84a441b4f44304.png" /></p>
-
-<p>Con estos métodos puedo obtener la estructura de una base de datos en particular.
-Si tomamos el ejemplo de Sakila</p>
-
-<p><strong>1. Obtenemos las tablas a</strong></p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">DBTable</span><span class="o">&gt;</span> <span class="n">tablesList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-<span class="n">DatabaseMetaData</span> <span class="n">dmd</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">();</span>
-<span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">dmd</span><span class="o">.</span><span class="na">getTables</span><span class="o">(</span><span class="s">&quot;sakila&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">tableTypes</span><span class="o">))</span> <span class="o">{</span>
-<span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
-    <span class="n">tablesList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBTable</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
-<span class="o">}</span></code></pre></div>
-
-<p><strong>2. Luego por cada tabla obtenemos sus columnas y PrimaryKey</strong></p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">for</span><span class="o">(</span><span class="n">DBTable</span> <span class="n">table</span> <span class="o">:</span> <span class="n">tableList</span><span class="o">){</span>
-   <span class="n">List</span><span class="o">&lt;</span><span class="n">DBColumn</span><span class="o">&gt;</span> <span class="n">columnList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-
-   <span class="c1">//Columns</span>
-   <span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">dmd</span><span class="o">.</span><span class="na">getColumns</span><span class="o">(</span><span class="s">&quot;sakila&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">getTableName</span><span class="o">(),</span> <span class="kc">null</span><span class="o">))</span> <span class="o">{</span>
-   <span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
-      <span class="n">columnList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBColumn</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
-   <span class="o">}</span> 
-   <span class="n">table</span><span class="o">.</span><span class="na">setColumns</span><span class="o">(</span><span class="n">columnList</span><span class="o">);</span>
-
-   <span class="c1">//PrimaryKey</span>
-   <span class="n">List</span><span class="o">&lt;</span><span class="n">DBPrimaryKey</span><span class="o">&gt;</span> <span class="n">primaryKeyList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-   <span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">dmd</span><span class="o">.</span><span class="na">getPrimaryKey</span><span class="o">(</span><span class="s">&quot;sakila&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">getTableName</span><span class="o">()))</span> <span class="o">{</span>
-   <span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
-      <span class="n">primaryKeyList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBPrimaryKey</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
-   <span class="o">}</span> 
-   <span class="n">table</span><span class="o">.</span><span class="na">setPrimaryKey</span><span class="o">(</span><span class="n">primaryKeyList</span><span class="o">);</span>
-<span class="o">}</span></code></pre></div>
-
-<p><strong>3. Obtenemos las ForeignKeys</strong></p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">DBForeignKey</span><span class="o">&gt;</span> <span class="n">foreignKeyList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
- <span class="n">DatabaseMetaData</span> <span class="n">dmd</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">();</span>
- <span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">dmd</span><span class="o">.</span><span class="na">getImportedKeys</span><span class="o">(</span><span class="s">&quot;sakila&quot;</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">getTableName</span><span class="o">()))</span> <span class="o">{</span>
- <span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
-    <span class="n">foreignKeyList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBForeignKey</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
- <span class="o">}</span> 
- <span class="n">table</span><span class="o">.</span><span class="na">setForeignKeyList</span><span class="o">(</span><span class="n">foreignKeyList</span><span class="o">);</span></code></pre></div>
-
-<p><strong>4. Establecemos las relaciones entre tablas las ForeignKeys</strong></p>
-
-<p>Ya tenemos el modelo armado y con datos para poder trabajarlos. Utilizando algún motor de plantillas se puede utilizar para generar, entre otras cosas, código. desde JavaBeans, archivos de mapeo de HIbrenate, etc. Yo lo voy a utilizar para crear una base de grafos donde se encuentre guardados los metadatos de una base relacional. después mostraré como se puede navegar y descubrir las relaciones existente en este esquema</p>
+    <p>Mi objetivo al principio era probar una base de datos de grafos, <a href="http://neo4j.com">Neo4J</a>, una vez que me instalé el servidor, seguí los ejemplos que vienen en la consola web de Neo4J y hasta ahí todo bien.
+Pero quería un ejemplo más completo, con más datos. 
+A partir de ahí quise ver como sería el proceso de migrar una base relacional a una de grafos.
+Para esto comencé de a poco, busqué una base de ejemplo, en este caso utilice <a href="http://dev.mysql.com/doc/sakila/en/">sakila</a> al principio quería ver el esquema, como se acomodaba a este paradigma, por lo que creé una base de datos en neo4j que contenía como datos solamente la estructura de la base relacional, es decir las <em>tablas</em>, sus <em>columnas</em>, y las <em>relaciones</em> entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.</p>
 
 
   </div>
@@ -551,8 +138,6 @@ Si tomamos el ejemplo de Sakila</p>
 
     <p>The Java Database Connectivity (JDBC) API is the industry standard for database-independent connectivity between the Java programming language and a wide range of databases  SQL databases and other tabular data sources, such as spreadsheets or flat files. The JDBC API provides a call-level API for SQL-based database access.</p>
 
-<p>JDBC technology allows you to use the Java programming language to exploit “Write Once, Run Anywhere” capabilities for applications that require access to enterprise data. With a JDBC technology-enabled driver, you can connect all corporate data even in a heterogeneous environment.</p>
-
 
   </div>
   
@@ -565,24 +150,9 @@ Si tomamos el ejemplo de Sakila</p>
 
     <span class="post-date">08 Aug 2014</span>
 
-    <p>Buscando probar un base de datos NoSQL, más precisamente una base de grafos como <a href="http://neo4j.com">Neo4j</a>, me di cuenta que no tenia datos para hacerlo.
-En verdad si tenía, podía utilizar <a href="http://docs.neo4j.org/chunked/stable/cypherdoc-movie-database.html">cypher</a> pero quería ver como <em>acomodar</em> una base de datos relacional en este nuevo esquema.
-Para esto me propuse <strong>migrar</strong> la base de datos <a href="http://dev.mysql.com/doc/sakila/en/">sakila</a>, pasarla de un esquema relacional a uno de grafos.</p>
-
-<p>Comenzando por las tablas y relaciones para luego continuar con las vistas.</p>
-
-<p>Mientras lo iba realizando me di cuenta que podía generalizar el proceso demanera que sirva para otras bases, no solo sakila.</p>
-
-<p>Al principio queria ver el esquema, como se acomodaba a este paradigma, por lo que <strong>generé</strong> una base de datos en neo4j que contenía como datos la <strong>estructura de la base relacional</strong>, es decir las <strong>tablas</strong>, sus <strong>columnas</strong>, y las <strong>relaciones</strong> entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.</p>
-
-<p>Una vez echo esto, <strong>migré los datos</strong> de sakila a neo4j, al principio leyendo los datos utilizando <strong>jdbc</strong> y generando comandos en <strong>cypher</strong> que pegaba en la consola de neo4j. 
-Esto funcionó bien hasta que me encontré con las tablas que tenian gran cantidad de registros, ya no me dejaba relizarlo. Entonces creé un proceso que los insertara utilizando <strong>batchInserter</strong>.</p>
-
-<p>En este post voy a migrar la metadata.</p>
-
-<h1 id="de-que-la-va-sakila">¿De que la va <code>Sakila</code>?</h1>
-
-<p><img src="http://dev.mysql.com/doc/workbench/en/images/wb-sakila-eer.png" alt="Sakila model" /></p>
+    <p>Buscando probar un base de datos NoSQL, más precisamente una base de grafos como [Neo4j][neo4j], me di cuenta que no tenia datos para hacerlo.
+En verdad si tenía, podía utilizar [cypher][neo4j sample db] pero quería ver como <em>acomodar</em> una base de datos relacional en este nuevo esquema.
+Para esto me propuse <strong>migrar</strong> la base de datos [sakila][mysql sakila], pasarla de un esquema relacional a uno de grafos.</p>
 
 
   </div>
@@ -596,275 +166,9 @@ Esto funcionó bien hasta que me encontré con las tablas que tenian gran cantid
 
     <span class="post-date">07 Aug 2014</span>
 
-    <p>Buscando probar un base de datos NoSQL, más precisamente una base de grafos como <a href="http://neo4j.com">Neo4j</a>, me di cuenta que no tenia datos para hacerlo.
-En verdad si tenía, podía utilizar <a href="http://docs.neo4j.org/chunked/stable/cypherdoc-movie-database.html">cypher</a> pero quería ver como <em>acomodar</em> una base de datos relacional en este nuevo esquema.
-Para esto me propuse <strong>migrar</strong> la base de datos <a href="http://dev.mysql.com/doc/sakila/en/">sakila</a>, pasarla de un esquema relacional a uno de grafos.</p>
-
-<p>Comenzando por las tablas y relaciones para luego continuar con las vistas.</p>
-
-<p>Mientras lo iba realizando me di cuenta que podía generalizar el proceso demanera que sirva para otras bases, no solo sakila.</p>
-
-<p>Al principio queria ver el esquema, como se acomodaba a este paradigma, por lo que <strong>generé</strong> una base de datos en neo4j que contenía como datos la <strong>estructura de la base relacional</strong>, es decir las <strong>tablas</strong>, sus <strong>columnas</strong>, y las <strong>relaciones</strong> entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.</p>
-
-<p>Una vez echo esto, <strong>migré los datos</strong> de sakila a neo4j, al principio leyendo los datos utilizando <strong>jdbc</strong> y generando comandos en <strong>cypher</strong> que pegaba en la consola de neo4j. 
-Esto funcionó bien hasta que me encontré con las tablas que tenian gran cantidad de registros, ya no me dejaba relizarlo. Entonces creé un proceso que los insertara utilizando <strong>batchInserter</strong>.</p>
-
-<p>En este post voy a migrar la metadata.</p>
-
-<h1 id="de-que-la-va-sakila">¿De que la va <code>Sakila</code>?</h1>
-
-<p><img src="http://dev.mysql.com/doc/workbench/en/images/wb-sakila-eer.png" alt="Sakila model" /></p>
-
-<h2 id="plan">Plan</h2>
-<p>Los pasos que tengo que realizar son:</p>
-
-<h3 id="metadata">Metadata</h3>
-<p>Analizar la estructura del modelo relacional, el de grafos y sus las similitudes</p>
-
-<ol>
-  <li>Entender los patrones básicos de los grafos para poder traducir las tablas y sus relaciones (FK -&gt; PK). </li>
-  <li>Migrar la estructura de la base relacional, <strong>no los datos</strong>. para tener un esquema base e ir probando diferentes cosas.</li>
-  <li>Ver esta estructura en un gráfico.</li>
-</ol>
-
-<h3 id="definir-la-estructura-a-migrar">Definir la estructura a migrar</h3>
-<p>En una primera instancia voy a migrar la base completa, por cada tupla genero un nodo, por cada <em>foreign key</em> en una tabla, una relación en la nueva base</p>
-
-<h1 id="paradigms">Paradigms</h1>
-
-<h2 id="rdbms">RDBMS</h2>
-
-<h3 id="sakila-example">Sakila example</h3>
-<p>Aca explico de que se trata el modelo de la base de datos de prueba <strong>sakila</strong>, que tiene actores, <code>peliculas</code>, <code>alquileres</code> y como se crean las tablas intermedias, por ejemplo <code>film_has_category</code>.
-puedo empezar por hacer un der normal y luego agregarle esas tablas, para señalar que solo estan para adecuar el modelo de datos al modelo de un rdbms.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>ERD</th>
-      <th>Graph Diagram</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><img src="/images/plantuml/7c591096c4850e1dbbd670ca1a3daa69.png" /></td>
-      <td><img src="/images/plantuml/b8dc3f7c75166a4e6f6a74bf892be793.png" /></td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="graph">Graph</h2>
-
-<p><strong>Simplified model</strong></p>
-
-<p><img src="/images/plantuml/088de128a7f4553aa53dae4611576582.png" /></p>
-
-<h2 id="object">Object</h2>
-
-<p>Aqui señalo como es el modelo de <code>ResultSet</code></p>
-
-<p><img src="/images/plantuml/d9e8691d3eaa52eab5d59036d7db2004.png" /></p>
-
-<hr />
-
-<h1 id="generalizacin">Generalización</h1>
-
-<h2 id="model">Model</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Model</th>
-      <th>RDBMS</th>
-      <th>Java</th>
-      <th>Graph</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><em>Tipo</em></td>
-      <td>Table</td>
-      <td>DBTable</td>
-      <td>(node:<code>DBTable</code>)</td>
-    </tr>
-    <tr>
-      <td><em>Name</em></td>
-      <td>table.name</td>
-      <td>name : <code>String</code></td>
-      <td>node.<code>name</code></td>
-    </tr>
-    <tr>
-      <td><em>Metadata</em></td>
-      <td>table.meta</td>
-      <td>meta: <code>[key:value] getters and setters</code></td>
-      <td>node.<code>properties</code></td>
-    </tr>
-    <tr>
-      <td><em>Properties</em></td>
-      <td>table.columns</td>
-      <td>columnList : <code>List &lt;DBColumn&gt;</code></td>
-      <td><code>(node:DBTable)-[:HAS_COLUMN]-(c:DBColumn)</code><br />  <code>return c</code></td>
-    </tr>
-    <tr>
-      <td><em>Relationships</em></td>
-      <td>table.fkList</td>
-      <td>fkList : <code>List&lt;DBImportedKey&gt;</code></td>
-      <td><code>(node:DBTable)-[fk:FK_TYPE]-(node2:DBTable)</code><br />  <code>return fk</code></td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="property">Property</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Model</th>
-      <th>RDBMS</th>
-      <th>Java</th>
-      <th>Graph</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><em>Tipo</em></td>
-      <td>Column</td>
-      <td>DBColumn</td>
-      <td>(node:<code>DBColumn</code>)</td>
-    </tr>
-    <tr>
-      <td><em>Name</em></td>
-      <td>column.name</td>
-      <td>name: <code>String</code></td>
-      <td>node.<code>name</code></td>
-    </tr>
-    <tr>
-      <td><em>Metadata</em></td>
-      <td>column.meta</td>
-      <td>meta: <code>[key:value] getters and setters</code></td>
-      <td>node.<code>properties</code></td>
-    </tr>
-    <tr>
-      <td><em>Relationships</em></td>
-      <td>column.fkColumn</td>
-      <td> </td>
-      <td><code>(node:DBColumn)-[fkCol:IS_FK_COL]-(node2:DBColumn)</code><br />  <code>return fkCol</code></td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="relationship">Relationship</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Model</th>
-      <th>RDBMS</th>
-      <th>Graph</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><em>Tipo</em></td>
-      <td>ImportedKey</td>
-      <td><code>(t1:DBTable)-[rel:IS_FK_COL]-(t2:DBTable)</code><br /><code>return rel</code></td>
-    </tr>
-    <tr>
-      <td><em>Name</em></td>
-      <td>importedKey.fkName</td>
-      <td>rel.<code>name</code></td>
-    </tr>
-    <tr>
-      <td><em>Metadata</em></td>
-      <td>importedKey.meta</td>
-      <td>rel.<code>properties</code></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="optimizar-la-migracin">Optimizar la migración</h3>
-
-<h2 id="section">#</h2>
-
-<h1 id="procesar-jdbc-metadata">Procesar JDBC Metadata</h1>
-<p>Que es una base de datos relacional?
-Bueno es esto <a href="http://dev.mysql.com/doc/index-other.html">mysql</a>
-Para poder leer esta estructura utilizo las apis <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/">jdbc</a> de java, primero leo de <a href="http://docs.oracle.com/javase/7/docs/api/java/sql/ResultSet.html">java.sql.ResultSet</a></p>
-
-<h2 id="procesa-jdbc-metadata">Procesa JDBC Metadata</h2>
-<p>Carga de objetos
-————-</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Tabla1</th>
-      <th>tabla1_has_tabla2</th>
-      <th>Tabla2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>film</td>
-      <td>film_has_actor</td>
-      <td>actor</td>
-    </tr>
-    <tr>
-      <td>film</td>
-      <td>film_has_actor</td>
-      <td>actor</td>
-    </tr>
-    <tr>
-      <td>film</td>
-      <td>film_has_actor</td>
-      <td>actor</td>
-    </tr>
-  </tbody>
-</table>
-
-<h1 id="genera-archivos">Genera archivos</h1>
-<p>##Archivos Cypher
-###JavaBeans
-###etc
-#BatchImport
-##Metadata en Neo4J
-##Datos de la base relacional
-#Depura relaciones de grafos</p>
-
-<h2 id="hacer-una-diapositiva-para-ver-la-evolucin">Hacer una diapositiva para ver la evolución</h2>
-
-<p><strong>Base level</strong></p>
-
-<p><img src="/images/plantuml/0c3bbe6f0fcd28ca8934068f86fa687b.png" /></p>
-
-<p><strong>Graph</strong></p>
-
-<p><img src="/images/plantuml/39e2971b385c903ea9c02087ad6d6288.png" /></p>
-
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2014/07/19/welcome-to-jekyll/">
-        Welcome to Jekyll!
-      </a>
-    </h1>
-
-    <span class="post-date">19 Jul 2014</span>
-
-    <p>You’ll find this post in your <code>_posts</code> directory - edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
-To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
-
-<p>Jekyll also offers powerful support for code snippets:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
-<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span></code></pre></div>
-
-<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>.</p>
+    <p>Buscando probar un base de datos NoSQL, más precisamente una base de grafos como [Neo4j][neo4j], me di cuenta que no tenia datos para hacerlo.
+En verdad si tenía, podía utilizar [cypher][neo4j sample db] pero quería ver como <em>acomodar</em> una base de datos relacional en este nuevo esquema.
+Para esto me propuse <strong>migrar</strong> la base de datos [sakila][mysql sakila], pasarla de un esquema relacional a uno de grafos.</p>
 
 
   </div>
@@ -881,6 +185,27 @@ To add new posts, simply add a file in the <code>_posts</code> directory that fo
 </div>
 
     </div>
+
+    <div id="toc" class="sidebar_toc">
+	 <div class="related" style=" position: absolute; right: 1rem; bottom: 1rem; left: 1rem; font-size: 80%;">
+	  <h2>Related Posts</h2>
+	  <ul class="related-posts">
+	    
+	  </ul>
+	</div>
+    </div>
+
+    
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/public/js/jquery.min.js"></script>
+<script src="/public/js/jquery.toc.js"></script>
+<script type="text/javascript">
+	$('.post').toc();
+</script>
+
 
   </body>
 </html>

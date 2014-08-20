@@ -10,7 +10,7 @@
 
   <title>
     
-      Relational 2 Graph - JDBC &middot; Augusto Darraidou
+      Relational 2 Graph - DatabaseMetaData &middot; Augusto Darraidou
     
   </title>
 
@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/public/css/poole.css">
   <link rel="stylesheet" href="/public/css/syntax.css">
   <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/toc.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   <!-- Icons -->
@@ -81,10 +82,6 @@
           
         
       
-        
-          
-        
-      
 
       <li class="sidebar-nav-item"><a href="https://github.com/adarraidou">GitHub</a></li>
       <li class="sidebar-nav-item"><a href="https://twitter.com/adarraidou">Twitter</a></li>
@@ -97,23 +94,42 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">Relational 2 Graph - JDBC</h1>
-  <span class="post-date">09 Aug 2014</span>
-  <h1 id="getting-the-database-structure">Getting the database structure</h1>
+  <h1 class="post-title">Relational 2 Graph - DatabaseMetaData</h1>
+  <span class="post-date">11 Aug 2014</span>
+  <p>Mi objetivo al principio era probar una base de datos de grafos, <a href="http://neo4j.com">Neo4J</a>, una vez que me instalé el servidor, seguí los ejemplos que vienen en la consola web de Neo4J y hasta ahí todo bien.
+Pero quería un ejemplo más completo, con más datos. 
+A partir de ahí quise ver como sería el proceso de migrar una base relacional a una de grafos.
+Para esto comencé de a poco, busqué una base de ejemplo, en este caso utilice <a href="http://dev.mysql.com/doc/sakila/en/">sakila</a> al principio quería ver el esquema, como se acomodaba a este paradigma, por lo que creé una base de datos en neo4j que contenía como datos solamente la estructura de la base relacional, es decir las <em>tablas</em>, sus <em>columnas</em>, y las <em>relaciones</em> entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.</p>
+
+<p>Una vez echo esto, migré los datos de sakila a Neo4j, en un inicio cargando los datos utilizando jdbc y generando comandos en cypher que pegaba en la consola de Neo4j. Esto funcionó bien hasta que me encontré con tablas que contenian gran cantidad de registros, ya no me dejaba relizarlo. Tuve que crear un proceso proceso que los insertara utilizando batchInserter.</p>
+
+<p>En este primer post voy a mostrar como obtener la metadata de una RDBMS utilizando el <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/">API JDBC de java</a>, esto nos va a servir como base para luego cargar esta información en Neo4J.</p>
+
+<h1 id="requisitos">Requisitos</h1>
+
+<p>Tener Instalado:
+ - <a href="(http://www.oracle.com/technetwork/java/javase/downloads/index.html)">Java JDK</a> , versión mínima 7.
+ - <a href="http://dev.mysql.com/downloads/mysql/">MySql</a> 
+ - <a href="http://dev.mysql.com/doc/sakila/en/">Sakila</a></p>
+
+<h1 id="getting-the-database-structure">Getting the database structure</h1>
 
 <h2 id="java-jdbc-api">Java™ JDBC API</h2>
 <blockquote>
-  <p>The Java Database Connectivity (JDBC) API provides universal data access from the Java programming language. Using the JDBC API, you can access virtually any data source, from relational databases to spreadsheets and flat files. JDBC technology also provides a common base on which tools and alternate interfaces can be built. <br /> <strong>Ref: <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/">JDBC</a></strong></p>
+  <p>The Java Database Connectivity (JDBC) API provides universal data access from the Java programming language. Using the JDBC API, you can access virtually any data source, from relational databases to spreadsheets and flat files. JDBC technology also provides a common base on which tools and alternate interfaces can be built.
+<strong>Ref: <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/">JDBC</a></strong></p>
 </blockquote>
 
 <h1 id="databasemetadata">DatabaseMetaData</h1>
 
 <blockquote>
-  <p>This interface is implemented by driver vendors to let users know the capabilities of a Database Management System (DBMS) in combination with the driver based on JDBCTM technology (“JDBC driver”) that is used with it. Different relational DBMSs often support different features, implement features in different ways, and use different data types. In addition, a driver may implement a feature on top of what the DBMS offers. Information returned by methods in this interface applies to the capabilities of a particular driver and a particular DBMS working together. Note that as used in this documentation, the term <strong>database</strong> is used generically to refer to both the driver and DBMS. <br /> <strong>Ref: <a href="http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html">DatabaseMetaData</a></strong></p>
+  <p>This interface is implemented by driver vendors to let users know the capabilities of a Database Management System (DBMS) in combination with the driver based on JDBCTM technology (“JDBC driver”) that is used with it. Different relational DBMSs often support different features, implement features in different ways, and use different data types. In addition, a driver may implement a feature on top of what the DBMS offers. Information returned by methods in this interface applies to the capabilities of a particular driver and a particular DBMS working together. Note that as used in this documentation, the term <strong>database</strong> is used generically to refer to both the driver and DBMS.
+<strong>Ref: <a href="http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html">DatabaseMetaData</a></strong></p>
 </blockquote>
 
 <h2 id="methods">Methods</h2>
-<p>These are the methods that we will pay attention</p>
+<p>Los métodos que les vamos a prestar atención son:
+These are the methods that we will pay attention</p>
 
 <table>
   <thead>
@@ -146,8 +162,9 @@
   </tbody>
 </table>
 
+<p>A continuación se encuentra el detalle de la información que devuelve cada método</p>
+
 <h3 id="gettables">getTables</h3>
-<p>Devuelve un ResultSet con la siguiente información</p>
 
 <table>
   <thead>
@@ -212,7 +229,6 @@
 </table>
 
 <h3 id="getcolumns">getColumns</h3>
-<p>Devuelve un ResultSet con la siguiente información</p>
 
 <table>
   <thead>
@@ -348,8 +364,6 @@
 
 <h3 id="getprimarykeys">getPrimaryKeys</h3>
 
-<p>Devuelve un ResultSet con la siguiente información</p>
-
 <table>
   <thead>
     <tr>
@@ -393,8 +407,6 @@
 </table>
 
 <h3 id="getimportedkeys--getexportedkeys">getImportedKeys &amp;&amp; getExportedKeys</h3>
-
-<p>Devuelve un ResultSet con la siguiente información</p>
 
 <table>
   <thead>
@@ -480,12 +492,14 @@
 
 <hr />
 
-<p><img src="/images/plantuml/a6e982bf46ad637a6e84a441b4f44304.png" /></p>
+<h1 id="class-diagram">Class Diagram</h1>
+
+<p><img src="/images/plantuml/7e040c9df11560fd4c44dd5e12f4d621.png" /></p>
 
 <p>Con estos métodos puedo obtener la estructura de una base de datos en particular.
 Si tomamos el ejemplo de Sakila</p>
 
-<p><strong>1. Obtenemos las tablas a</strong></p>
+<h2 id="obtenemos-las-tablas">1. Obtenemos las tablas</h2>
 
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">DBTable</span><span class="o">&gt;</span> <span class="n">tablesList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
 <span class="n">DatabaseMetaData</span> <span class="n">dmd</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">();</span>
@@ -494,7 +508,7 @@ Si tomamos el ejemplo de Sakila</p>
     <span class="n">tablesList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBTable</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>
 <span class="o">}</span></code></pre></div>
 
-<p><strong>2. Luego por cada tabla obtenemos sus columnas y PrimaryKey</strong></p>
+<h2 id="luego-por-cada-tabla-obtenemos-sus-columnas-y-primarykey">2. Luego por cada tabla obtenemos sus columnas y PrimaryKey</h2>
 
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">for</span><span class="o">(</span><span class="n">DBTable</span> <span class="n">table</span> <span class="o">:</span> <span class="n">tableList</span><span class="o">){</span>
    <span class="n">List</span><span class="o">&lt;</span><span class="n">DBColumn</span><span class="o">&gt;</span> <span class="n">columnList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
@@ -515,7 +529,7 @@ Si tomamos el ejemplo de Sakila</p>
    <span class="n">table</span><span class="o">.</span><span class="na">setPrimaryKey</span><span class="o">(</span><span class="n">primaryKeyList</span><span class="o">);</span>
 <span class="o">}</span></code></pre></div>
 
-<p><strong>3. Obtenemos las ForeignKeys</strong></p>
+<h2 id="obtenemos-las-foreignkeys">3. Obtenemos las ForeignKeys</h2>
 
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">List</span><span class="o">&lt;</span><span class="n">DBForeignKey</span><span class="o">&gt;</span> <span class="n">foreignKeyList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
  <span class="n">DatabaseMetaData</span> <span class="n">dmd</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">();</span>
@@ -525,9 +539,106 @@ Si tomamos el ejemplo de Sakila</p>
  <span class="o">}</span> 
  <span class="n">table</span><span class="o">.</span><span class="na">setForeignKeyList</span><span class="o">(</span><span class="n">foreignKeyList</span><span class="o">);</span></code></pre></div>
 
-<p><strong>4. Establecemos las relaciones entre tablas las ForeignKeys</strong></p>
+<h2 id="establecemos-las-relaciones-entre-tablas-las-foreignkeys">4. Establecemos las relaciones entre tablas las ForeignKeys</h2>
 
-<p>Ya tenemos el modelo armado y con datos para poder trabajarlos. Utilizando algún motor de plantillas se puede utilizar para generar, entre otras cosas, código. desde JavaBeans, archivos de mapeo de HIbrenate, etc. Yo lo voy a utilizar para crear una base de grafos donde se encuentre guardados los metadatos de una base relacional. después mostraré como se puede navegar y descubrir las relaciones existente en este esquema</p>
+<h2 id="proceso-completo">Proceso completo</h2>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">load</span><span class="o">(</span><span class="n">String</span> <span class="n">catalog</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>
+
+        <span class="k">try</span> <span class="o">(</span><span class="n">Connection</span> <span class="n">con</span> <span class="o">=</span> <span class="n">JdbcConnectionFactory</span><span class="o">.</span><span class="na">getConnection</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">DatabaseMetaData</span> <span class="n">metaData</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="na">getMetaData</span><span class="o">();</span>
+            <span class="k">try</span> <span class="o">(</span><span class="n">ResultSet</span> <span class="n">tableRs</span> <span class="o">=</span> <span class="n">metaData</span><span class="o">.</span><span class="na">getTables</span><span class="o">(</span><span class="n">catalog</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&quot;TABLE&quot;</span><span class="o">}))</span> <span class="o">{</span>
+
+                <span class="k">while</span> <span class="o">(</span><span class="n">tableRs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="n">DBTable</span> <span class="n">dbTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">DBTable</span><span class="o">(</span><span class="n">tableRs</span><span class="o">);</span>
+                    <span class="n">loadColumns</span><span class="o">(</span><span class="n">dbTable</span><span class="o">,</span> <span class="n">metaData</span><span class="o">);</span>
+                    <span class="n">tableMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">dbTable</span><span class="o">.</span><span class="na">getTableName</span><span class="o">(),</span> <span class="n">dbTable</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">DBTable</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">tableMap</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">string</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">();</span>
+                <span class="n">DBTable</span> <span class="n">dbTable</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+
+                <span class="n">loadPK</span><span class="o">(</span><span class="n">catalog</span><span class="o">,</span> <span class="n">dbTable</span><span class="o">,</span> <span class="n">metaData</span><span class="o">);</span>
+                <span class="n">loadDataIDs</span><span class="o">(</span><span class="n">dbTable</span><span class="o">);</span>
+                
+            <span class="o">}</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">DBTable</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">tableMap</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">DBTable</span> <span class="n">dbTable</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+                <span class="n">loadFK</span><span class="o">(</span><span class="n">catalog</span><span class="o">,</span> <span class="n">dbTable</span><span class="o">,</span> <span class="n">metaData</span><span class="o">);</span>
+                <span class="n">getSql</span><span class="o">(</span><span class="n">dbTable</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadColumns</span><span class="o">(</span><span class="n">DBTable</span> <span class="n">dbTable</span><span class="o">,</span> <span class="n">DatabaseMetaData</span> <span class="n">metaData</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">(</span><span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">metaData</span><span class="o">.</span><span class="na">getColumns</span><span class="o">(</span><span class="n">dbTable</span><span class="o">.</span><span class="na">getTableCat</span><span class="o">(),</span> <span class="kc">null</span><span class="o">,</span> <span class="n">dbTable</span><span class="o">.</span><span class="na">getTableName</span><span class="o">(),</span> <span class="kc">null</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">DBColumn</span><span class="o">&gt;</span> <span class="n">columnsList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">()){</span>
+                <span class="n">columnsList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBColumn</span><span class="o">(</span><span class="n">rs</span><span class="o">));</span>               
+            <span class="o">}</span>
+            <span class="n">dbTable</span><span class="o">.</span><span class="na">setColumnList</span><span class="o">(</span><span class="n">columnsList</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+  
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadPK</span><span class="o">(</span><span class="n">String</span> <span class="n">catalog</span><span class="o">,</span> <span class="n">DBTable</span> <span class="n">table</span><span class="o">,</span> <span class="n">DatabaseMetaData</span> <span class="n">metaData</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">(</span><span class="n">ResultSet</span> <span class="n">pkRs</span> <span class="o">=</span> <span class="n">metaData</span><span class="o">.</span><span class="na">getPrimaryKeys</span><span class="o">(</span><span class="n">catalog</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">getTableName</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">DBPrimaryKey</span><span class="o">&gt;</span> <span class="n">pkList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+            <span class="k">while</span> <span class="o">(</span><span class="n">pkRs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">pkList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBPrimaryKey</span><span class="o">(</span><span class="n">pkRs</span><span class="o">));</span>
+            <span class="o">}</span>
+            <span class="n">table</span><span class="o">.</span><span class="na">setPkList</span><span class="o">(</span><span class="n">pkList</span><span class="o">);</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadFK</span><span class="o">(</span><span class="n">String</span> <span class="n">catalog</span><span class="o">,</span> <span class="n">DBTable</span> <span class="n">table</span><span class="o">,</span> <span class="n">DatabaseMetaData</span> <span class="n">metaData</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>
+
+        <span class="k">try</span> <span class="o">(</span><span class="n">ResultSet</span> <span class="n">ikRs</span> <span class="o">=</span> <span class="n">metaData</span><span class="o">.</span><span class="na">getImportedKeys</span><span class="o">(</span><span class="n">catalog</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">getTableName</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">DBImportedKey</span><span class="o">&gt;</span> <span class="n">ikList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+            <span class="k">while</span> <span class="o">(</span><span class="n">ikRs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">ikList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">DBImportedKey</span><span class="o">(</span><span class="n">ikRs</span><span class="o">));</span>
+            <span class="o">}</span>
+            <span class="n">table</span><span class="o">.</span><span class="na">setImportedKeyList</span><span class="o">(</span><span class="n">ikList</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">//clean FK</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">DBForeignKey</span><span class="o">&gt;</span> <span class="n">fkMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">table</span><span class="o">.</span><span class="na">setForeignKeyList</span><span class="o">(</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">DBForeignKey</span><span class="o">&gt;());</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">DBImportedKey</span> <span class="n">ik</span> <span class="o">:</span> <span class="n">table</span><span class="o">.</span><span class="na">getImportedKeyList</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">DBForeignKey</span> <span class="n">fk</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">String</span> <span class="n">fkname</span> <span class="o">=</span> <span class="n">ik</span><span class="o">.</span><span class="na">getFkName</span><span class="o">();</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">fkMap</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">fkname</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">fk</span> <span class="o">=</span> <span class="n">fkMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fkname</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+
+                <span class="n">fk</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">DBForeignKey</span><span class="o">();</span>                
+                <span class="n">fk</span><span class="o">.</span><span class="na">setFkTable</span><span class="o">(</span><span class="n">table</span><span class="o">);</span>
+                <span class="n">fk</span><span class="o">.</span><span class="na">setPkTable</span><span class="o">(</span><span class="n">tableMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">ik</span><span class="o">.</span><span class="na">getPktableName</span><span class="o">()));</span>
+                <span class="n">fkMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">fkname</span><span class="o">,</span> <span class="n">fk</span><span class="o">);</span>
+                <span class="n">table</span><span class="o">.</span><span class="na">getForeignKeyList</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">fk</span><span class="o">);</span>
+                <span class="n">fk</span><span class="o">.</span><span class="na">setImportedKeyList</span><span class="o">(</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">DBImportedKey</span><span class="o">&gt;());</span>
+                <span class="n">fk</span><span class="o">.</span><span class="na">setFkName</span><span class="o">(</span><span class="n">fkname</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">fk</span><span class="o">.</span><span class="na">getImportedKeyList</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">ik</span><span class="o">);</span>
+
+        <span class="o">}</span>
+    <span class="o">}</span></code></pre></div>
+
+<h1 id="resumen">Resumen</h1>
+<p>…</p>
+
+<h1 id="prximos-pasos">Próximos pasos</h1>
+
+<p>Ya tenemos el modelo armado y con datos para poder trabajarlos. Utilizando algún motor de plantillas se puede utilizar para generar, entre otras cosas, código. desde JavaBeans, archivos de mapeo de Hibernate, etc.
+En el siguiente post lo voy a utilizar para crear una base de grafos donde se encuentre guardados los metadatos de una base relacional. después mostraré como se puede navegar y descubrir las relaciones existente en este esquema</p>
 
 
 
@@ -551,41 +662,57 @@ var disqus_shortname = 'adarraidougithubio'; // required: replace example with y
 
   
 
-<div class="related">
-  <h2>Related Posts</h2>
-  <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/es/2014/08/08/jdbc-metadata/">
-            JDBC - Metadata
-            <small>08 Aug 2014</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/es/2014/08/08/sakila-metadata-graph/">
-            Sakila - Metadata
-            <small>08 Aug 2014</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/es/2014/08/07/rdbms/">
-            Relational 2 Graph - Metadata
-            <small>07 Aug 2014</small>
-          </a>
-        </h3>
-      </li>
-    
-  </ul>
-</div>
+
 
     </div>
+
+    <div id="toc" class="sidebar_toc">
+	 <div class="related" style=" position: absolute; right: 1rem; bottom: 1rem; left: 1rem; font-size: 80%;">
+	  <h2>Related Posts</h2>
+	  <ul class="related-posts">
+	    
+	      <li>
+		<h3>
+		  <a href="/es/2014/08/13/cypher/">
+		    Relational 2 Graph - Cypher
+		    <small>13 Aug 2014</small>
+		  </a>
+		</h3>
+	      </li>
+	    
+	      <li>
+		<h3>
+		  <a href="/es/2014/08/08/jdbc-metadata/">
+		    JDBC - Metadata
+		    <small>08 Aug 2014</small>
+		  </a>
+		</h3>
+	      </li>
+	    
+	      <li>
+		<h3>
+		  <a href="/es/2014/08/08/sakila-metadata-graph/">
+		    Sakila - Metadata
+		    <small>08 Aug 2014</small>
+		  </a>
+		</h3>
+	      </li>
+	    
+	  </ul>
+	</div>
+    </div>
+
+    
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/public/js/jquery.min.js"></script>
+<script src="/public/js/jquery.toc.js"></script>
+<script type="text/javascript">
+	$('.post').toc();
+</script>
+
 
   </body>
 </html>

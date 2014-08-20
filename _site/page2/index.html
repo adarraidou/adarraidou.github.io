@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/public/css/poole.css">
   <link rel="stylesheet" href="/public/css/syntax.css">
   <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/toc.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   <!-- Icons -->
@@ -81,10 +82,6 @@
           
         
       
-        
-          
-        
-      
 
       <li class="sidebar-nav-item"><a href="https://github.com/adarraidou">GitHub</a></li>
       <li class="sidebar-nav-item"><a href="https://twitter.com/adarraidou">Twitter</a></li>
@@ -100,141 +97,6 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/12/28/introducing-hyde/">
-        Introducing Hyde
-      </a>
-    </h1>
-
-    <span class="post-date">28 Dec 2013</span>
-
-    <p>Hyde is a brazen two-column <a href="http://jekyllrb.com">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. It’s based on <a href="http://getpoole.com">Poole</a>, the Jekyll butler.</p>
-
-<h3 id="built-on-poole">Built on Poole</h3>
-
-<p>Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by <a href="https://twitter.com/mdo">@mdo</a>. Poole, and every theme built on it (like Hyde here) includes the following:</p>
-
-<ul>
-  <li>Complete Jekyll setup included (layouts, config, <a href="/404">404</a>, <a href="/atom.xml">RSS feed</a>, posts, and <a href="/about">example page</a>)</li>
-  <li>Mobile friendly design and development</li>
-  <li>Easily scalable text and component sizing with <code>rem</code> units in the CSS</li>
-  <li>Support for a wide gamut of HTML elements</li>
-  <li>Related posts (time-based, because Jekyll) below each post</li>
-  <li>Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)</li>
-</ul>
-
-<h3 id="hyde-features">Hyde features</h3>
-
-<p>In addition to the features of Poole, Lanyon adds the following:</p>
-
-<ul>
-  <li>Sidebar includes support for textual modules and a dynamically generated navigation with active link support</li>
-  <li>Two orientations for content and sidebar, default (left sidebar) and <a href="https://github.com/poole/lanyon#reverse-layout">reverse</a> (right sidebar), available via <code>&lt;body&gt;</code> classes</li>
-  <li><a href="https://github.com/poole/hyde#themes">Eight optional color schemes</a>, available via <code>&lt;body&gt;</code> classes</li>
-</ul>
-
-<p><a href="https://github.com/poole/hyde#readme">Head to the readme</a> to learn more.</p>
-
-<h3 id="browser-support">Browser support</h3>
-
-<p>Hyde is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.</p>
-
-<h3 id="download">Download</h3>
-
-<p>Hyde is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/hyde">GitHub repository</a> for downloads, bug reports, and features requests.</p>
-
-<p>Thanks!</p>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2012/02/07/example-content/">
-        Example content
-      </a>
-    </h1>
-
-    <span class="post-date">07 Feb 2012</span>
-
-    <p>This blog post shows a few different types of content that’s supported and styled with Hyde. Basic typography, images, and code are all supported.</p>
-
-<hr />
-
-<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-
-<blockquote>
-  <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-</blockquote>
-
-<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-
-<h2 id="heading">Heading</h2>
-
-<p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-
-<h3 id="sub-heading">Sub-heading</h3>
-
-<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Example can be run directly in your JavaScript console</span>
-
-<span class="c1">// Create a function that takes two arguments and returns the sum of those arguments</span>
-<span class="kd">var</span> <span class="nx">adder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;return a + b&quot;</span><span class="p">);</span>
-
-<span class="c1">// Call the function</span>
-<span class="nx">adder</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
-<span class="c1">// &gt; 8</span></code></pre></div>
-
-<p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-
-<h3 id="sub-heading-1">Sub-heading</h3>
-
-<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-
-<ul>
-  <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-  <li>Donec id elit non mi porta gravida at eget metus.</li>
-  <li>Nulla vitae elit libero, a pharetra augue.</li>
-</ul>
-
-<p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-
-<ol>
-  <li>Vestibulum id ligula porta felis euismod semper.</li>
-  <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-  <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-</ol>
-
-<p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
-
-<hr />
-
-<p>Want to see something else added? <a href="https://github.com/mdo/hyde/issues/new">Open an issue.</a></p>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2012/02/06/whats-jekyll/">
-        What's Jekyll?
-      </a>
-    </h1>
-
-    <span class="post-date">06 Feb 2012</span>
-
-    <p><a href="http://jekyllrb.com">Jekyll</a> is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From <a href="https://github.com/mojombo/jekyll/blob/master/README.markdown">the project’s readme</a>:</p>
-
-<blockquote>
-  <p>Jekyll is a simple, blog aware, static site generator. It takes a template directory […] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.</p>
-</blockquote>
-
-<p>It’s an immensely useful tool and one we encourage you to use here with Hyde.</p>
-
-<p>Find out more by <a href="https://github.com/mojombo/jekyll">visiting the project on GitHub</a>.</p>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
       <a href="/2009/09/15/Borrador-de-una-entidad/">
         Parte 4 - Borrador de una entidad
       </a>
@@ -243,42 +105,6 @@
     <span class="post-date">15 Sep 2009</span>
 
     <h1 id="borrador-de-una-entidad">Borrador de una entidad</h1>
-
-<p>Para pasar en limpio lo que tengo sobre entidades, sin tener en cuenta la herencia y no entrar en más detalle con otras anotaciones o las validaciones, una clase de una entidad puede componerse de la siguiente forma:
-De acuerdo a este modelo vamos a tener las siguientes clases.</p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Entity</span>
-
-<span class="c1">//properties</span>
-
-    <span class="nd">@Identity</span><span class="o">/</span><span class="n">ies</span>
-    <span class="o">-&gt;</span> <span class="nd">@Id</span>
-    <span class="c1">//Para mas de un campo en la PK</span>
-    <span class="o">-&gt;</span> <span class="nd">@EmbbededId</span>    <span class="o">(</span><span class="n">usa</span> <span class="n">una</span> <span class="n">clase</span> <span class="nd">@Embbedable</span><span class="o">)</span>
-    <span class="o">-&gt;</span> <span class="nd">@IdClass</span>        <span class="o">(</span><span class="n">tiene</span> <span class="n">una</span> <span class="n">clase</span> <span class="n">propia</span><span class="o">)</span>
-
-    <span class="nd">@Basic</span>
-
-    <span class="nd">@Embbeded</span>
-
-    <span class="nd">@OneToOne</span>
-    <span class="nd">@OneToMany</span>
-    <span class="nd">@ManyToOne</span>
-    <span class="nd">@ManyToMany</span>
-
-    <span class="o">--</span>
-    <span class="c1">//Derived identities</span>
-    <span class="nd">@MappedById</span><span class="o">(</span><span class="s">&quot;nomColumnaPk&quot;</span><span class="o">)</span> <span class="c1">// maps to nomColumnaPk attribute of @EmbeddedId (@ManyToOne, @OneToOne, ¿otros?)</span>
-
-    <span class="nd">@ElementCollection</span>
-
-<span class="c1">//Getter and Setters</span>
-    <span class="n">getProperties</span><span class="o">();</span>
-    <span class="n">setProperties</span><span class="o">();</span>
-
-<span class="c1">//Otros</span>
-    <span class="n">equals</span>
-    <span class="n">toString</span></code></pre></div>
 
 
   </div>
@@ -294,396 +120,35 @@ De acuerdo a este modelo vamos a tener las siguientes clases.</p>
 
     <h1 id="mapeo-de-propiedades-con-jpa--ejemplo">Mapeo de propiedades con JPA – Ejemplo</h1>
 
-<p>Este es un simple modelo de datos que corresponde a un sistema que registra el alquiler de películas y datos de los socios.
-<img src="http://adarraidou.files.wordpress.com/2009/09/modelo-de-datos-video-club.png?w=595" alt="modelo de datos video club" /></p>
 
-<p>De acuerdo a este modelo vamos a tener las siguientes clases.</p>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2009/09/10/Mapeo-de-propiedades-con-JPA/">
+        Parte 2 - Mapeo de propiedades con JPA
+      </a>
+    </h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Tabla</th>
-      <th>Clase</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Peliculas</td>
-      <td>Pelicula</td>
-    </tr>
-    <tr>
-      <td>Copias_Peliculas</td>
-      <td>CopiaPelicula</td>
-    </tr>
-    <tr>
-      <td>Formatos</td>
-      <td>Formato</td>
-    </tr>
-    <tr>
-      <td>Socios</td>
-      <td>Socio</td>
-    </tr>
-    <tr>
-      <td>Alquileres</td>
-      <td>Alquiler</td>
-    </tr>
-    <tr>
-      <td>Ciudades</td>
-      <td>Ciudad</td>
-    </tr>
-  </tbody>
-</table>
+    <span class="post-date">10 Sep 2009</span>
 
-<h2 id="clase-socio">Clase <code>Socio</code></h2>
-<p>Una de las cosas que vamos a necesitar es indicar como se identifica cada socio (es decir la clave primaria), que propiedad corresponde a que columna, si una propiedad se representa por un objeto de una Entidad en vez de un tipo básico (Ciudad por ejemplo), y si queremos agrupar ciertas columnas que tienen un sentido de dominio (las columnas referidas a la direccion por ejemplo). En la siguiente tabla mostramos esto:</p>
+    <p>Vimos que para mapear una clase con una tabla usabamos las anotaciones @Entity y @Table, ahora vamos a explicar como mapeamos las propiedades de las clases con las columnas de las tablas.
+Existen distintos tipos de anotaciones para mapear propiedades. Esto depende del tipo de dato de las columnas de la tabla, si es una relación con otra tabla, etc.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Propiedad</th>
-      <th>Columna</th>
-      <th>Tipo</th>
-      <th>Anotación</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>id</td>
-      <td>socio_id</td>
-      <td>Integer</td>
-      <td><code>@Id</code><br /> <code>@Column(name = "socio_id")</code></td>
-    </tr>
-    <tr>
-      <td>nroSocio</td>
-      <td>nro_socio</td>
-      <td>String</td>
-      <td><code>@Column(name = "nroSocio")</code></td>
-    </tr>
-    <tr>
-      <td>nombre</td>
-      <td>nombre</td>
-      <td>String</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>apellido</td>
-      <td>apellido</td>
-      <td>String</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>direccion</td>
-      <td>ciudad_id<br />codigo_postal<br />dir_calle<br />dir_numero<br />dir_piso dir_depto</td>
-      <td>Direccion</td>
-      <td><code>@Embedded</code></td>
-    </tr>
-    <tr>
-      <td>fechaAlta</td>
-      <td>fecha_alta</td>
-      <td>java.util.Date</td>
-      <td><code>@Temporal(TemporalType.DATE)</code></td>
-    </tr>
-    <tr>
-      <td>telefono</td>
-      <td>telefono</td>
-      <td>String</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>ultimaActializacion</td>
-      <td>ultima_actualizacion</td>
-      <td>java.util.Date</td>
-      <td><code>@Temporal(TemporalType.TIMESTAMP)</code></td>
-    </tr>
-  </tbody>
-</table>
 
-<p>Ejemplo propiedad socio_id:</p>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2009/09/01/Entidades/">
+        Parte 1 - Entidades
+      </a>
+    </h1>
 
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Id</span>
-<span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
-<span class="nd">@Basic</span><span class="o">(</span><span class="n">optional</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
-<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;socio_id&quot;</span><span class="o">)</span>
-<span class="kd">private</span> <span class="n">Short</span> <span class="n">id</span><span class="o">;</span></code></pre></div>
+    <span class="post-date">01 Sep 2009</span>
 
-<h3 id="id--generatedvalue">@Id – @GeneratedValue</h3>
-<p>La columna <code>socios_id</code> es la clave primaria de la tabla Socios, es decir que la identifica univocamente. para indicar esto usamos la anotación <code>@Id</code></p>
-
-<blockquote>
-  <p>Nota: Las anotaciones <code>@Id</code> y <code>@GeneratedValue</code> seran desarroladas en otro momento cuando se vean los distintos casos de identificación de claves primarias y la generación de los valores de estas.</p>
-</blockquote>
-
-<h3 id="basic">@Basic</h3>
-<p><code>@Basic(optional = false)</code> indica que este campo es obligatorio</p>
-
-<h3 id="column">@Column</h3>
-<p><code>@Column(name = "socio_id")</code> por defecto se toma el nombre de la propiedad como nombre de la columna con la cual se mapea, como en este caso se llaman distinto <strong>(socio_id → id)</strong> hay que indicarle cual es el nombre de la columna.</p>
-
-<p>Para las propiedades <strong>nombre, apellido</strong> y <strong>telefono</strong>, como tienen el mismo nombre que sus columnas no hace falta indicarle nada más ya que por defecto se asume que son propiedades persistentes.</p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">String</span> <span class="n">nombre</span><span class="o">;</span>
-<span class="kd">private</span> <span class="n">String</span> <span class="n">apellido</span><span class="o">;</span>
-<span class="kd">private</span> <span class="n">String</span> <span class="n">telefono</span><span class="o">;</span></code></pre></div>
-
-<h3 id="embeddable--embedded">@Embeddable – @Embedded</h3>
-
-<p>Veamos un caso especial que sucede con la dirección. En el modelo de datos no existe una tabla llamada Direcciones, sino que es una abstracción que realizamos nosotros para agrupar estas propiedades en una clase que les da sentido. Pero esta clase no es una entidad en si, no tiene una tabla para si misma donde se guarden sus datos. Para esto creamos una clase llamada <strong>Direccion</strong>, la anotamos con @Embeddable y ponemos las propiedades <strong>ciudad, codigoPostal, calle, numero, piso, departamento</strong>.</p>
-
-<h2 id="clase-direccion">Clase <code>Direccion</code></h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Propiedad</th>
-      <th>Columna</th>
-      <th>Tipo</th>
-      <th>Anotación</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ciudad</td>
-      <td>ciudad_id</td>
-      <td>Ciudad</td>
-      <td><code>@JoinColumn(name = "ciudad_id")</code><br /><code>@ManyToOne</code></td>
-    </tr>
-    <tr>
-      <td>codigoPostal</td>
-      <td>codigo_postal</td>
-      <td>String</td>
-      <td><code>@Column(name = "codigo_postal")</code></td>
-    </tr>
-    <tr>
-      <td>calle</td>
-      <td>dir_calle</td>
-      <td>String</td>
-      <td><code>@Column(name = "dir_callel")</code></td>
-    </tr>
-    <tr>
-      <td>numero</td>
-      <td>dir_numero</td>
-      <td>String</td>
-      <td><code>@Column(name = "dir_numero")</code></td>
-    </tr>
-    <tr>
-      <td>piso</td>
-      <td>dir_piso</td>
-      <td>String</td>
-      <td><code>@Column(name = "dir_piso")</code></td>
-    </tr>
-    <tr>
-      <td>departamento</td>
-      <td>dir_depto</td>
-      <td>String</td>
-      <td><code>@Column(name = "dir_depto")</code></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Esta anotación no tiene atributos.</p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="nd">@Embeddable</span>
-<span class="lineno"> 2</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Direccion</span> <span class="o">{</span>
-<span class="lineno"> 3</span>    <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;ciudad_id&quot;</span><span class="o">)</span>
-<span class="lineno"> 4</span>    <span class="nd">@ManyToOne</span>
-<span class="lineno"> 5</span>    <span class="kd">private</span> <span class="n">Ciudad</span> <span class="n">ciudad</span><span class="o">;</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span>    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;codigo_postal&quot;</span><span class="o">)</span>
-<span class="lineno"> 8</span>    <span class="kd">private</span> <span class="n">String</span> <span class="n">codigoPostal</span><span class="o">;</span>
-<span class="lineno"> 9</span> 
-<span class="lineno">10</span>    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;dir_calle&quot;</span><span class="o">)</span>
-<span class="lineno">11</span>    <span class="kd">private</span> <span class="n">String</span> <span class="n">calle</span><span class="o">;</span>
-<span class="lineno">12</span> 
-<span class="lineno">13</span>    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;dir_numero&quot;</span><span class="o">)</span>
-<span class="lineno">14</span>    <span class="kd">private</span> <span class="n">String</span> <span class="n">numero</span><span class="o">;</span>
-<span class="lineno">15</span> 
-<span class="lineno">16</span>    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;dir_piso&quot;</span><span class="o">)</span>
-<span class="lineno">17</span>    <span class="kd">private</span> <span class="n">String</span> <span class="n">piso</span><span class="o">;</span>
-<span class="lineno">18</span> 
-<span class="lineno">19</span>    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;dir_dpto&quot;</span><span class="o">)</span>
-<span class="lineno">20</span>    <span class="kd">private</span> <span class="n">String</span> <span class="n">departamento</span><span class="o">;</span>
-<span class="lineno">21</span> 
-<span class="lineno">22</span>    <span class="cm">/**Getters and Setters*/</span>
-<span class="lineno">23</span> 
-<span class="lineno">24</span> <span class="o">}</span></code></pre></div>
-
-<p>¿como usamos esto en la clase Socio? Como cualquier tipo de Java pero agregándole la anotación <code>@Embedded</code>.</p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Embedded</span> <span class="kd">private</span> <span class="n">Direccion</span> <span class="n">direccion</span><span class="o">;</span></code></pre></div>
-
-<blockquote>
-  <p>Esta misma clase se puede reutilizar en otras. Por ejemplo si existiese una tabla <em>Proveedores</em> con datos de dirección. En un futuro desarrollo del tema vamos a ver como se pueden sobreescribir los mapeos de este tipo de propiedades.</p>
-</blockquote>
-
-<h3 id="temporal">@Temporal</h3>
-<p>Nos quedan los campos <strong>fecha_alta</strong> y <strong>ultima_actualizacion</strong> que son de tipo Date el primero y Timestamp en segundo.
-Para esto usamos una anotación nueva, <code>@Temporal</code>,  esta anotación sirve para indicar que se deben persistir solo tipos de datos <code>java.util.Date</code>  y <code>java.util.Calendar</code>. Los valores que acepta son:</p>
-
-<ul>
-  <li><strong>DATE</strong> – equivalente a <code>java.sql.Date</code></li>
-  <li><strong>TIME</strong> – equivalente a <code>java.sql.Time</code></li>
-  <li><strong>TIMESTAMP</strong> – equivalente a <code>java.sql.Timestamp</code></li>
-</ul>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;fecha_alta&quot;</span><span class="o">)</span>
-<span class="nd">@Temporal</span><span class="o">(</span><span class="n">TemporalType</span><span class="o">.</span><span class="na">DATE</span><span class="o">)</span>
-<span class="kd">private</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">fechaAlta</span><span class="o">;</span>
-
-<span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;ultima_actualizacion&quot;</span><span class="o">)</span>
-<span class="nd">@Temporal</span><span class="o">(</span><span class="n">TemporalType</span><span class="o">.</span><span class="na">TIMESTAMP</span><span class="o">)</span>
-<span class="kd">private</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">ultimaActualizacion</span><span class="o">;</span></code></pre></div>
-
-<h2 id="clase-pelicula">Clase <code>Pelicula</code></h2>
-<p>Pasemos ahora a la tabla Peliculas. Listamos a continuación una tabla con las propiedades y sus características</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Propiedad</th>
-      <th>Columna</th>
-      <th>Tipo</th>
-      <th>Anotación</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>id</td>
-      <td>pelicula_id</td>
-      <td>Integer</td>
-      <td>@Id<br />@Column(name = “pelicula_id”)</td>
-    </tr>
-    <tr>
-      <td>nombre</td>
-      <td>nombre</td>
-      <td>String</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>duracion</td>
-      <td>duracion</td>
-      <td>Short</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>calificacion</td>
-      <td>calificacion</td>
-      <td>enum Calificacion</td>
-      <td>@Enumerated(STRING)</td>
-    </tr>
-    <tr>
-      <td>sinopsis</td>
-      <td>sinopsis</td>
-      <td>String</td>
-      <td> </td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="clase-copiapelicula">Clase <code>CopiaPelicula</code></h2>
-
-<p>Pasemos ahora a la tabla CopiaPelicula. Listamos a continuación una tabla con las propiedades y sus características</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Propiedad</th>
-      <th>Columna</th>
-      <th>Tipo</th>
-      <th>Anotación</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>pelicula</td>
-      <td>pelicula_id</td>
-      <td>Pelicula</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>nroCopia</td>
-      <td>nro_copia</td>
-      <td>Integer</td>
-      <td>@Column(name = “nro_copia”)</td>
-    </tr>
-    <tr>
-      <td>formato</td>
-      <td>formato_id</td>
-      <td>Formato</td>
-      <td>@JoinColumn(name = “ciudad_id”)<br />@ManyToOne</td>
-    </tr>
-    <tr>
-      <td>estado</td>
-      <td>estado</td>
-      <td>enum EstadoCopia</td>
-      <td>@Enumerated(STRING)</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="enumerated">@Enumerated</h3>
-
-<p><strong>Ejemplo 1</strong></p>
-
-<p>La columna calificacion de la tabla Peliculas esta definida como</p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">ENUM</span><span class="o">(</span><span class="n">Apta</span> <span class="n">para</span> <span class="n">todo</span> <span class="n">público</span><span class="o">.,</span>
-     <span class="n">Sólo</span> <span class="n">apta</span> <span class="n">para</span> <span class="n">mayores</span> <span class="n">de</span> <span class="mi">13</span> <span class="n">años</span><span class="o">,</span>
-     <span class="n">Sólo</span> <span class="n">apta</span> <span class="n">para</span> <span class="n">mayores</span> <span class="n">de</span> <span class="mi">18</span> <span class="n">años</span><span class="o">,</span>
-     <span class="n">Sólo</span> <span class="n">apta</span> <span class="n">para</span> <span class="n">mayores</span> <span class="n">de</span> <span class="mi">18</span> <span class="n">años</span><span class="o">,</span> <span class="n">de</span> <span class="n">exhibición</span> <span class="n">condicionada</span><span class="o">.)</span></code></pre></div>
-
-<p>Para reflejar esto en la clase Socios usamos un tipo Enum:</p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Entity</span>
-<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Peliculas&quot;</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Pelicula</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-
-   <span class="c1">//…</span>
-
-   <span class="kd">public</span> <span class="kd">enum</span> <span class="n">Calificacion</span> <span class="o">{</span>
-      <span class="n">A</span><span class="o">(</span><span class="s">&quot;Apta para todo público.&quot;</span><span class="o">),</span>
-      <span class="n">B</span><span class="o">(</span><span class="s">&quot;Sólo apta para mayores de 13 años.&quot;</span><span class="o">),</span>
-      <span class="n">C</span><span class="o">(</span><span class="s">&quot;Sólo apta para mayores de 18 años.&quot;</span><span class="o">),</span>
-      <span class="n">D</span><span class="o">(</span><span class="s">&quot;Sólo apta para mayores de 18 años, de exhibición condicionada.&quot;</span><span class="o">);</span>
-   
-      <span class="kd">private</span> <span class="n">String</span> <span class="n">value</span><span class="o">;</span>
-
-      <span class="n">Calificacion</span><span class="o">(</span><span class="n">String</span> <span class="n">value</span><span class="o">){</span>
-         <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
-      <span class="o">}</span>
-
-   <span class="o">}</span>
-
-   <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">STRING</span><span class="o">)</span>
-   <span class="kd">private</span> <span class="n">Calificacion</span> <span class="n">calificacion</span><span class="o">;</span>
-
-   <span class="c1">//…</span>
-
-<span class="o">}</span></code></pre></div>
-
-<p><strong>Ejemplo 2</strong></p>
-
-<p>El Estado de la copia de la película se definió como</p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">ENUM</span><span class="o">(</span><span class="n">Libre</span><span class="o">,</span> <span class="n">Alquilado</span><span class="o">,</span> <span class="n">En_Reparacion</span><span class="o">,</span> <span class="n">Fuera_de_Servicio</span><span class="o">)</span></code></pre></div>
-
-<p>Podemos reflejarlo de la siguiente manera:</p>
-
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Entity</span>
-<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Copias_Peliculas&quot;</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CopiaPelicula</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-
-   <span class="kd">public</span> <span class="kd">enum</span> <span class="n">EstadoCopia</span> <span class="o">{</span>
-      <span class="n">LIBRE</span><span class="o">,</span> <span class="n">ALQUILADO</span><span class="o">,</span> <span class="n">EN_REPARACION</span><span class="o">,</span> <span class="n">FUERA_DE_SERVICIO</span>
-   <span class="o">}</span>
-
-   <span class="c1">//...</span>
-
-   <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">STRING</span><span class="o">)</span>
-   <span class="kd">private</span> <span class="n">EstadoCopia</span> <span class="n">estado</span><span class="o">;</span>
-
-<span class="o">}</span></code></pre></div>
-
-<p>Después de tratar el tema de las relaciones entre entidades voy a subir los fuentes de los ejemplos.</p>
+    <h1 id="entidades">Entidades</h1>
+<p>Antes que nada, supongamos que tenemos una base de datos con una tabla llamada <strong>Personas</strong> definida de la siguiente manera.</p>
 
 
   </div>
@@ -692,7 +157,7 @@ Para esto usamos una anotación nueva, <code>@Temporal</code>,  esta anotación 
 
 <div class="pagination">
   
-    <a class="pagination-item older" href="/page3">Older</a>
+    <span class="pagination-item older">Older</span>
   
   
     
@@ -702,6 +167,27 @@ Para esto usamos una anotación nueva, <code>@Temporal</code>,  esta anotación 
 </div>
 
     </div>
+
+    <div id="toc" class="sidebar_toc">
+	 <div class="related" style=" position: absolute; right: 1rem; bottom: 1rem; left: 1rem; font-size: 80%;">
+	  <h2>Related Posts</h2>
+	  <ul class="related-posts">
+	    
+	  </ul>
+	</div>
+    </div>
+
+    
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/public/js/jquery.min.js"></script>
+<script src="/public/js/jquery.toc.js"></script>
+<script type="text/javascript">
+	$('.post').toc();
+</script>
+
 
   </body>
 </html>

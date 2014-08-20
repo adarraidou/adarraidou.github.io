@@ -127,7 +127,7 @@ DBTable.pkColumns | Sentencia Cypher | plantilla
 DBTable.exportedKeys | Sentencia Cypher | plantilla
 
 
-{% highlight groovy %}
+{% highlight jsp %}
 /****************************************
            TABLES
 ****************************************/
