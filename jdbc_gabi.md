@@ -130,7 +130,7 @@ Column name | Type | Description
 
 # Class Diagram
 
-{% plantuml %}
+{% highlight %}
 
 
 class DBTable {
@@ -190,7 +190,7 @@ DBReferenceKeyColumn --> DBColumn:"fkColumn"
 DBReferenceKeyColumn - DBReferenceKey
 
 
-{% endplantuml %}
+{% endhighlight %}
 
 Con estos métodos puedo obtener la estructura de una base de datos en particular.
 Si tomamos el ejemplo de Sakila
