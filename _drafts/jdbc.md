@@ -6,13 +6,14 @@ categories:
     - es
 autor: Augusto Darraidou
 ---
+[toc]
 
 Mi objetivo al principio era probar una base de datos de grafos, [Neo4J][neo4j], una vez que me instalé el servidor, seguí los ejemplos que vienen en la consola web de Neo4J y hasta ahí todo bien.
 Pero quería un ejemplo más completo, con más datos. 
 A partir de ahí quise ver como sería el proceso de migrar una base relacional a una de grafos.
 Para esto comencé de a poco, busqué una base de ejemplo, en este caso utilice [sakila][mysql sakila] al principio quería ver el esquema, como se acomodaba a este paradigma, por lo que creé una base de datos en neo4j que contenía como datos solamente la estructura de la base relacional, es decir las _tablas_, sus _columnas_, y las _relaciones_ entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.
 
-Una vez echo esto, migré los datos de sakila a Neo4j, en un inicio cargando los datos utilizando jdbc y generando comandos en cypher que pegaba en la consola de Neo4j. Esto funcionó bien hasta que me encontré con tablas que contenian gran cantidad de registros, ya no me dejaba relizarlo. Tuve que crear un proceso proceso que los insertara utilizando batchInserter.
+Una vez hecho esto, migré los datos de sakila a Neo4j, en un inicio cargando los datos utilizando jdbc y generando comandos en cypher que pegaba en la consola de Neo4j. Esto funcionó bien hasta que me encontré con bases de datos que que contenian gran cantidad de registros, ya no me dejaba relizarlo. Tuve que crear un proceso proceso que los insertara utilizando batchInserter.
 
 En este primer post voy a mostrar como obtener la metadata de una RDBMS utilizando el [API JDBC de java][jdbc api], esto nos va a servir como base para luego cargar esta información en Neo4J.
 
@@ -30,10 +31,10 @@ Tener Instalado:
 **Ref: [JDBC](http://docs.oracle.com/javase/7/docs/technotes/guides/jdbc/)**
 
 
-# DatabaseMetaData
+## java.sql.DatabaseMetaData
 
 > This interface is implemented by driver vendors to let users know the capabilities of a Database Management System (DBMS) in combination with the driver based on JDBCTM technology ("JDBC driver") that is used with it. Different relational DBMSs often support different features, implement features in different ways, and use different data types. In addition, a driver may implement a feature on top of what the DBMS offers. Information returned by methods in this interface applies to the capabilities of a particular driver and a particular DBMS working together. Note that as used in this documentation, the term **database** is used generically to refer to both the driver and DBMS.
-**Ref: [DatabaseMetaData](http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html)**
+**Ref: [java.sql.DatabaseMetaData API](http://docs.oracle.com/javase/7/docs/api/java/sql/DatabaseMetaData.html)**
 
 ## Methods
 Los métodos que les vamos a prestar atención son:
@@ -131,38 +132,63 @@ Column name | Type | Description
 
 {% plantuml %}
 
+
 class DBTable {
-  name/id
-  metadata
-  columns[]
-  pkColumns[]
+  id  
+  ----
+  **<<metadata>>**
+  tableName
+  tableSchem
+  tableCat
+  pkName
+  ----
+  columnList
+  primaryKey
+  importedKeyList
+  exportedKeyList
 }
 
 class DBColumn {
-  name/id
-  metadata
+  id
+  -----
+  **<<metadata>>**
+  columnName 
+  -----
   table
 }
 
 class DBReferenceKey {
+      id
+  -----
+  **<<metadata>>** 
+  pkName;
+  fkName;
+  deferrability;
+  updateRule;
+  deleteRule;
+  ----
   pkTable
   fkTable
-  metadata
+  referenceColumns
 }
 
-class DBReferenceColumn {
+class DBReferenceKeyColumn {
+  **<<metadata>>**
+  keySeq
+  ----
   pkColumn
   fkColumn
-  meta
+  referenceKey
 }
 
-DBTable "pkTable"<- DBReferenceKey
-DBTable "fkTable"<- DBReferenceKey
-DBTable -"*" DBColumn: has_columns
-DBTable -"*" DBColumn: has_pk_Columns
-DBReferenceColumn -"1" DBColumn: pkColumn
-DBReferenceColumn -"1" DBColumn: fkColumn
-DBReferenceColumn - DBReferenceKey
+DBTable "pkTable"<- "exportedKeyList" DBReferenceKey
+DBTable "fkTable"<- "importedKeyList" DBReferenceKey
+DBTable "table" --* "columnList" DBColumn
+DBTable "table" --* "primaryKey" DBColumn
+DBReferenceKeyColumn --> DBColumn:"pkColumn"
+DBReferenceKeyColumn --> DBColumn:"fkColumn"
+DBReferenceKeyColumn - DBReferenceKey
+
 
 {% endplantuml %}
 
@@ -315,6 +341,31 @@ for(DBTable table : tableList){
     }
 {% endhighlight %}
 
+# Carga
+Ya tenemos los objetos que representan la estructura de la base de datos, el paso siguiente es cargarlos en la base de Neo4j.
+Para esto tenemos varias opciones
+
+ - Ejecutar comandos **Cypher**
+ - Generar archivos **CSV** e [importarlos con Cypher](http://docs.neo4j.org/chunked/milestone/cypherdoc-importing-csv-files-with-cypher.html?_ga=1.147778295.1144920925.1390911101)
+ - Usar **BatchImporter.**
+
+## Cypher
+> Cypher is a declarative graph query language that allows for expressive and efficient querying and updating of the graph store. Cypher is a relatively simple but still very powerful language. Very complicated database queries can easily be expressed through Cypher. This allows you to focus on your domain instead of getting lost in database access.
+[read more](http://neo4j.com/docs/2.1.3/cypher-introduction/)
+
+El modelo que tendríamos para mostrar la estructura de nuestra base, usando Cypher, es el siguiente
+
+``` 
+(aTable:DBTable)-[:FK]->(anotherTable:DBTable)
+(aTable)-[:HAS_COLUMN]->(column1:DBColumn)
+(aTable)-[:HAS_COLUMN]->(column2:DBColumn)
+
+(aTable)-[:IS_PK_COLUMN]->(column1)
+
+(column2)-[:IS_FK_COLUMN]->(otherColumn:DBColumn)-[:IS_PK_COLUMN]->(anotherTable)
+
+```
+simplificado por este gráfico
 
 # Resumen
 ...
