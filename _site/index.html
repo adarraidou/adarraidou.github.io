@@ -97,78 +97,58 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/es/2014/08/13/cypher/">
-        Relational 2 Graph - Cypher
+      <a href="/2009/09/15/Borrador-de-una-entidad/">
+        Parte 4 - Borrador de una entidad
       </a>
     </h1>
 
-    <span class="post-date">13 Aug 2014</span>
+    <span class="post-date">15 Sep 2009</span>
 
-    <p>En el <a href="jdbc">post anterior</a> vimos como obtener la metadata de la estructura de la base de datos, el paso siguiente es cargarlos en la base de Neo4j.
-Para esto tenemos varias opciones</p>
+    <h1 id="borrador-de-una-entidad">Borrador de una entidad</h1>
 
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/es/2014/08/11/jdbc/">
-        Relational 2 Graph - DatabaseMetaData
+      <a href="/2009/09/10/Mapeo-de-propiedades-con-JPA%20%E2%80%93%20Ejemplo/">
+        Parte 3 - Mapeo de propiedades con JPA – Ejemplo
       </a>
     </h1>
 
-    <span class="post-date">11 Aug 2014</span>
+    <span class="post-date">10 Sep 2009</span>
 
-    <p>Mi objetivo al principio era probar una base de datos de grafos, <a href="http://neo4j.com">Neo4J</a>, una vez que me instalé el servidor, seguí los ejemplos que vienen en la consola web de Neo4J y hasta ahí todo bien.
-Pero quería un ejemplo más completo, con más datos. 
-A partir de ahí quise ver como sería el proceso de migrar una base relacional a una de grafos.
-Para esto comencé de a poco, busqué una base de ejemplo, en este caso utilice <a href="http://dev.mysql.com/doc/sakila/en/">sakila</a> al principio quería ver el esquema, como se acomodaba a este paradigma, por lo que creé una base de datos en neo4j que contenía como datos solamente la estructura de la base relacional, es decir las <em>tablas</em>, sus <em>columnas</em>, y las <em>relaciones</em> entre estas, de esta manera podía ver la metadata de la base relacional en un ambiente de grafos.</p>
+    <h1 id="mapeo-de-propiedades-con-jpa--ejemplo">Mapeo de propiedades con JPA – Ejemplo</h1>
 
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/es/2014/08/08/jdbc-metadata/">
-        JDBC - Metadata
+      <a href="/2009/09/10/Mapeo-de-propiedades-con-JPA/">
+        Parte 2 - Mapeo de propiedades con JPA
       </a>
     </h1>
 
-    <span class="post-date">08 Aug 2014</span>
+    <span class="post-date">10 Sep 2009</span>
 
-    <p>The Java Database Connectivity (JDBC) API is the industry standard for database-independent connectivity between the Java programming language and a wide range of databases  SQL databases and other tabular data sources, such as spreadsheets or flat files. The JDBC API provides a call-level API for SQL-based database access.</p>
+    <p>Vimos que para mapear una clase con una tabla usabamos las anotaciones @Entity y @Table, ahora vamos a explicar como mapeamos las propiedades de las clases con las columnas de las tablas.
+Existen distintos tipos de anotaciones para mapear propiedades. Esto depende del tipo de dato de las columnas de la tabla, si es una relación con otra tabla, etc.</p>
 
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/es/2014/08/08/sakila-metadata-graph/">
-        Sakila - Metadata
+      <a href="/2009/09/01/Entidades/">
+        Parte 1 - Entidades
       </a>
     </h1>
 
-    <span class="post-date">08 Aug 2014</span>
+    <span class="post-date">01 Sep 2009</span>
 
-    <p>Buscando probar un base de datos NoSQL, más precisamente una base de grafos como [Neo4j][neo4j], me di cuenta que no tenia datos para hacerlo.
-En verdad si tenía, podía utilizar [cypher][neo4j sample db] pero quería ver como <em>acomodar</em> una base de datos relacional en este nuevo esquema.
-Para esto me propuse <strong>migrar</strong> la base de datos [sakila][mysql sakila], pasarla de un esquema relacional a uno de grafos.</p>
-
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/es/2014/08/07/rdbms/">
-        Relational 2 Graph - Metadata
-      </a>
-    </h1>
-
-    <span class="post-date">07 Aug 2014</span>
-
-    <p>Buscando probar un base de datos NoSQL, más precisamente una base de grafos como [Neo4j][neo4j], me di cuenta que no tenia datos para hacerlo.
-En verdad si tenía, podía utilizar [cypher][neo4j sample db] pero quería ver como <em>acomodar</em> una base de datos relacional en este nuevo esquema.
-Para esto me propuse <strong>migrar</strong> la base de datos [sakila][mysql sakila], pasarla de un esquema relacional a uno de grafos.</p>
+    <h1 id="entidades">Entidades</h1>
+<p>Antes que nada, supongamos que tenemos una base de datos con una tabla llamada <strong>Personas</strong> definida de la siguiente manera.</p>
 
 
   </div>
@@ -177,7 +157,7 @@ Para esto me propuse <strong>migrar</strong> la base de datos [sakila][mysql sak
 
 <div class="pagination">
   
-    <a class="pagination-item older" href="/page2">Older</a>
+    <span class="pagination-item older">Older</span>
   
   
     <span class="pagination-item newer">Newer</span>
