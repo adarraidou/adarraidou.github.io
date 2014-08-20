@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 title: Relational 2 Graph - DatabaseMetaData
 lang: es
 categories:
@@ -130,7 +130,7 @@ Column name | Type | Description
 
 # Class Diagram
 
-{% highlight %}
+{% highlight java %}
 
 
 class DBTable {
